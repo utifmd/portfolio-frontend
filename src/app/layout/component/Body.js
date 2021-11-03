@@ -4,13 +4,29 @@ import RowGeneral from './particular/row/General'
 import FormScholars from './form/row/scholars'
 import { BtnPrimary } from './particular/button'
 
-const App = ({ introItem, setDetailImage }) => { return (
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getPosts } from '../../../data/repos/remote/persistence/scholars'
+
+
+const App = ({ introItem, setDetailImage }) => { 
+
+    const dispatch = useDispatch(),
+        scholars = useSelector((state) => state.scholars)
+
+    useEffect(() => {
+        dispatch(getPosts())
+    }, [ dispatch ])
+
+    console.log(`Body: ${scholars}`);
+
+return (
     <div className="bg-gray-100 py-11 space-y-4">
         <BtnPrimary label="Begin" />
         {/* <RowSimple data={introItem} />
         <RowGreeting data={neckItems} />
         <RowComplex data={introItem} /> */}
-        <RowGeneral data={introItem} setDetailImage={setDetailImage} />
+        { scholars.length ? <RowGeneral data={introItem} setDetailImage={setDetailImage} /> : null }
         <FormScholars />
     {/* <figure className="md:flex bg-gray-100 rounded-xl p-8 m-8 md:p-0">
             <img className="w-32 h-32 md:w-48 md:h-auto md:rounded-none rounded-full mx-auto" src={logo} alt={logo} width="384" height="512" />

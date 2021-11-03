@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react'
 import { toBase64, toLowerImage } from '../../../../features/module'
 import { BtnPrimary } from '../../particular/button'
 import { PlaceholderImg } from '../../../../assets'
-// import {} from '../../../../'
 
 const App = ({ data, setDetailImage }) => { 
     const inputRef = useRef(null),

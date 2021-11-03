@@ -5,6 +5,8 @@ export const getPosts = () => async (dispatch) => {
     try {
         const { data } = await api.fetchScholars()  //  console.log(`getPosts trigger`)
 
+        console.log(data)
+
         dispatch({ type: READ_ALL, payload: data })
     } catch (error) {
         console.log(error)
