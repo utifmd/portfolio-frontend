@@ -8,7 +8,7 @@ export const fetchScholars = () =>
 
 export const createScholars = (newPost) => 
     axios.post(`${url}/${scholars}`, newPost)
-
+    
 export const updateScholars = (id, newPost) => 
     axios.patch(`${url}/${scholars}/${id}`, newPost)
 

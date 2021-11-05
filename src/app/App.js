@@ -1,36 +1,24 @@
-import React, { Component } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
 
-import Header from './layout/component/Header'
-import Body from './layout/component/Body'
-import Footer from './layout/component/Footer'
-import Modal from './layout/component/Modal'
-import ModalImage from './layout/component/particular/detail/Picture'
-import { useState } from 'react'
+import { getPosts, createPost } from '../data/repos/remote/persistence/scholars'
+import MainView from './view/MainView'
 
-class App extends Component {
-  constructor(props){
-    super(props)
+const App = ({ introItem, neckItems }) => {
+    const dispatch = useDispatch(),
+        scholars = useSelector((state) => state.scholars)
+    
+    useEffect(() => {
+        dispatch(getPosts())
 
-    this.viewModel = new ScholarViewModel(scholarRepository)
-  }
+    }, [ dispatch ])
 
-  render(){
-    return( <ScholarView viewModel={} /> )
-  }
+    return (
+      <MainView 
+        introItem={introItem} 
+        neckItems={neckItems} 
+        scholars={scholars} setScholars={createPost}/>
+    )
 }
 
-// function App({ introItem, neckItems }) {
-//   const [ showModal, setShowModal ] = useState(false)
-//   const [ detailImage, setDetailImage ] = useState(null)
-//   return ( /*container mx-auto px-4 md:container md:mx-auto*/
-//     <div className="container max-w-xl mx-auto">
-//       <Header />
-//       <Body introItem={introItem} neckItems={neckItems} setDetailImage={setDetailImage} />
-//       <Footer />
-//       <Modal showModal={showModal} setShowModal={setShowModal} />
-//       <ModalImage detailImage={detailImage} setDetailImage={setDetailImage} />
-//     </div>
-//   );
-// }
-
-export default App;
+export default App

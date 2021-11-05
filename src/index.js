@@ -18,7 +18,9 @@ const store = createStore(reducers, compose(
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}><App introItem={introItem} neckItems={neckItems} /></Provider>
+    <Provider store={store}>
+      <App introItem={introItem} neckItems={neckItems}/>
+    </Provider>
   </React.StrictMode>, document.getElementById('root')
 )
 

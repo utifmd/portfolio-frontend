@@ -1,6 +1,6 @@
-export const BtnPrimary = ({ label, onClick }) => 
+export const BtnPrimary = ({ type, label, onClick }) => 
     <div className="flex justify-center">
-        <button className="py-4 px-20 uppercase bg-green-600 font-bold text-white" onClick={onClick}>{label}</button>
+        <button className="py-4 px-20 uppercase bg-green-600 font-bold text-white" type={type} onClick={onClick}>{label}</button>
     </div>
 
 export const BtnNext = ({ onClick }) => 

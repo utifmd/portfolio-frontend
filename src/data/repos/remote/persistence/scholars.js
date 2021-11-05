@@ -3,9 +3,7 @@ import * as api from "../../../../app/features/api"
 
 export const getPosts = () => async (dispatch) => {
     try {
-        const { data } = await api.fetchScholars()  //  console.log(`getPosts trigger`)
-
-        console.log(data)
+        const { data } = await api.fetchScholars()
 
         dispatch({ type: READ_ALL, payload: data })
     } catch (error) {
