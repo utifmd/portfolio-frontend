@@ -1,8 +1,7 @@
 import axios from 'axios'
 import { scholars, projects } from '../../../domain'
 
-const url = //"http://127.0.0.1:5000" //
-    "https://portfolio-utifmd.herokuapp.com/"
+const url = "https://pages-backend.herokuapp.com" // "http://127.0.0.1:5000/" //"https://portfolio-utifmd.herokuapp.com/"
 
 const client = axios.create({baseURL: url, timeout: 20000})
 
