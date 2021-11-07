@@ -1,16 +1,44 @@
 import axios from 'axios'
-import { scholars } from '../../../domain'
+import { scholars, projects } from '../../../domain'
 
 const url = "http://127.0.0.1:5000" //"https://portfolio-utifmd.herokuapp.com/posts"
 
+const client = axios.create({baseURL: url, timeout: 20000})
+
 export const fetchScholars = () => 
-    axios.get(`${url}/${scholars}`)
+    client.get(`/${scholars}`)
 
 export const createScholars = (newPost) => 
-    axios.post(`${url}/${scholars}`, newPost)
+    client.post(`/${scholars}`, newPost)
     
 export const updateScholars = (id, newPost) => 
-    axios.patch(`${url}/${scholars}/${id}`, newPost)
+    client.patch(`/${scholars}/${id}`, newPost)
 
 export const deleteScholars = (id) => 
-    axios.delete(`${url}/${scholars}/${id}`)
+    client.delete(`/${scholars}/${id}`)
+
+    /*SEPARATOR*/
+
+export const readProjects = () => 
+    client.get(`/${projects}`)
+
+export const createProject = (newPost) => 
+    client.post(`/${projects}`, newPost, { onUploadProgress: progressEvent => {
+        const current = progressEvent.loaded //currentTarget.progress
+        const total = progressEvent.total // currentTarget.responseHeaders['Content-Length']
+
+        let percentComplete = Math.floor(current / total * 100)
+
+        console.log(`percentComplete ${percentComplete}`) 
+        console.log(`progress ${progressEvent.progress}`) 
+    }}).then((resp) => {
+        console.log(`Completed ${resp.headers}`)
+
+        return resp.data
+    })
+    
+export const updateProject = (id, newPost) => 
+    client.patch(`/${projects}/${id}`, newPost)
+
+export const deleteProject = (id) => 
+    client.delete(`/${projects}/${id}`)

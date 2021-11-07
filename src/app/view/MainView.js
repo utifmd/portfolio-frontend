@@ -5,7 +5,7 @@ import Modal from '../layout/component/Modal'
 import ModalImage from '../layout/component/particular/detail/Picture'
 import { useState } from 'react'
 
-function App({ introItem, neckItems, scholars, setScholars }) {
+function App({ introItem, neckItems, scholars, setScholars, projects, setProjects }) {
   
   const [ showModal, setShowModal ] = useState(false),
     [ detailImage, setDetailImage ] = useState(null)
@@ -17,6 +17,8 @@ function App({ introItem, neckItems, scholars, setScholars }) {
         neckItems={neckItems} 
         scholars={scholars}
         setScholars={setScholars}
+        projects={projects}
+        setProjects={setProjects}
         setDetailImage={setDetailImage} />
       <Footer />
       <Modal showModal={showModal} setShowModal={setShowModal} />

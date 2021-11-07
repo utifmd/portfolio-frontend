@@ -8,15 +8,15 @@ import { useDispatch } from 'react-redux'
 const App = ({ setScholars }) => { 
     const inputRef = useRef(null),
         dispatch = useDispatch(),
-        defaultState = { title: null, desc: 'Scholarship entry', body: null, author: 'utifmd@gmail.com', file: null, tags: ['scholarship']},
-        [ stateData, setStateData ] = useState(defaultState),
+        initialState = { title: null, desc: 'Scholarship entry', body: null, author: 'utifmd@gmail.com', file: null, tags: ['scholarship']},
+        [ stateData, setStateData ] = useState(initialState),
         
     handleSubmit = (e) => {
         e.preventDefault()
 
         if(stateData.title && stateData.body && stateData.file){
             dispatch(setScholars(stateData))
-            setStateData(defaultState)
+            setStateData(initialState)
         }
     },
     

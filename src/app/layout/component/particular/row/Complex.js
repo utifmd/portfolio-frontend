@@ -10,10 +10,7 @@ const App = ({ data }) =>
                 <div className="w-6/12 sm:w-4/12 px-4">
                     <img src={data?.icon} alt="cretive" className="shadow-lg rounded-full max-w-full h-auto align-middle border-none" />
                 </div>
-            </div>
-            <dd> { data?.stack.map((v, i) => 
-                <span className="px-1"><box-icon key={i} className="h-6 w-6 text-gray-400" name={v.icon} type="logo"/></span>
-            )} </dd>
+            </div> {/* <box-icon key={i} className="rounded-full inline-block w-10 h-10 pb-1" name={v} type="logo"/> */}
             <Info data={data} />
         </div>
         <BtnNext />

@@ -41,6 +41,11 @@ return (
               </ul>
             </dd>
           </div>
+          <div className="w-full h-auto px-4 py-4 flex flex-wrap border-t border-gray-300"> 
+          { data?.stack?.map((v, i) => 
+            <span key={i} className="py-1 px-4 mr-4 mt-2 text-xs rounded-full text-gray-600 bg-gray-300">#{v}</span>
+          )} 
+          </div>
         </dl>
       </div>
     </div>

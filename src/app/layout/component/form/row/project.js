@@ -9,26 +9,27 @@ const App = ({ setProjects }) => {
     const dispatch = useDispatch(),
         refIcon = useRef(null),
         refScreenshot = useRef(null),
-        defaultState = { 
+        initialState = { 
             title: null,
             description: null,
-            kind: null,
+            kind: 'website',
             stack: [],
             icon: null,
             screenshot: [],
             source: null},
-        [ stateData, setStateData ] = useState(defaultState),
+        [ stateData, setStateData ] = useState(initialState),
+        [ stateHeadSource, setStateHeadSource ] = useState('https'),
         { title, description, kind, stack, icon, screenshot, source } = stateData,
         
     handleSubmit = (e) => {
         e.preventDefault()
 
-        console.log(JSON.stringify(stateData, null, 2));
+        // console.log(JSON.stringify(stateData, null, 2));
 
-        // if(title && description && kind && icon && source){
-        //     dispatch(setProjects(stateData))
-        //     setStateData(defaultState)
-        // }
+        if(title && description && kind && icon && source){
+            dispatch(setProjects(stateData))
+            setStateData(initialState)
+        }
     },
     
     handleOpenedFile = async (e, type) => {
@@ -62,16 +63,30 @@ return(
                 <div className="grid gap-4 md:grid-cols-2 mb-4">
                     <div className="md:col-span-2">
                         <input type="text" placeholder="Enter projct name" className="appearance-none block w-full bg-gray-200 text-gray-700 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"
-                            onChange={(e) => setStateData({...stateData, title: e.target.value.trim()})}/></div>
+                            onChange={(e) => setStateData({...stateData, title: e.target.value.trim()})}/>
+                    </div>
+                    <div className="md:col-span-2 flex flex-inline">
+                        <select className="bg-gray-200 text-gray-700 py-4 pl-3 pr-2 focus:outline-none" value={stateHeadSource} onChange={(e) => setStateHeadSource(e.target.value)}>
+                            <option value="https">https://</option>
+                            <option value="http">http://</option> {/* <option value="mysql://">mysql</option> <option value="mongodb://">mongodb</option> */}
+                        </select>
+                        <input type="text" placeholder="Enter source link" className="appearance-none block w-full bg-gray-200 text-gray-700 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"
+                            onChange={(e) => setStateData({ ...stateData, source: `${stateHeadSource}${e.target.value}` })} />
+                    </div>
                     <div className="relative bg-white overflow-hidden appearance-none block w-full bg-gray-200 text-gray-700 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600">
                     { icon ?
                         <img className="object-contain h-full w-full cursor-pointer" src={icon} alt="add new stateData" onClick={() => refIcon.current.click()} /> : <PlaceholderImg onClick={() => refIcon.current.click()} /> }
-                        <input ref={refIcon} className="hidden" type="file" id="file"
-                            multiple={false} 
+                        <input ref={refIcon} className="hidden" type="file" id="file" multiple={false}
                             onChange={(e) => handleOpenedFile(e, 1)} />
                     </div>
                     <div className="h-full w-full space-y-4 text-left">
-                        <textarea type="text" placeholder="Enter app description" onChange={(e) => setStateData({...stateData, description: e.target.value.trim()})} className="appearance-none block w-full bg-gray-200 text-gray-700 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"/>
+                        <select className="appearance-none block w-full bg-gray-200 text-gray-700 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"
+                            value={stateData.kind} onChange={(e) => setStateData({ ...stateData, kind: e.target.value })}>
+                            <option value="website">Website</option>
+                            <option value="android">Android</option>
+                            <option value="ios">IOS</option>
+                            <option value="webapps">Web Application</option>
+                        </select>
                         <input type="text" placeholder="Enter some stacks" className="appearance-none block w-full bg-gray-200 text-gray-700 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"
                             onKeyUp={handleStackEvent} />
                             <div className="hidden">
@@ -89,6 +104,8 @@ return(
                                 </button>
                             </div>
                         ) : null : null}
+                        <textarea type="text" placeholder="Enter app description" className="appearance-none block w-full bg-gray-200 text-gray-700 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"
+                            onChange={(e) => setStateData({...stateData, description: e.target.value.trim()})} />
                     </div>
                     <div className="md:col-span-2"> 
                         <div className="flex justify-start space-x-1"> { screenshot.length ? screenshot.map((v, i) => 
