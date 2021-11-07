@@ -15,8 +15,26 @@ export const BtnNext = ({ onClick }) =>
 export const BtnCollapse = ({ className, onClick }) => 
     <div className={className}>
         <div onClick={onClick}>
-            <div className="rounded-full m-6 h-16 w-16 flex items-center justify-center bg-gray-200 hover:bg-gray-300 cursor-pointer">
+            <div className="rounded-full shadow mt-6 mx-6 h-16 w-16 flex items-center justify-center bg-gray-200 hover:bg-gray-300 cursor-pointer">
                 <box-icon name='collapse'></box-icon>
+            </div>
+        </div>
+    </div>
+
+export const BtnRight = ({ className, onClick }) => 
+    <div className={className}>
+        <div onClick={onClick}>
+            <div className="rounded-full shadow mt-6 mr-6 h-16 w-16 flex items-center justify-center bg-gray-200 hover:bg-gray-300 cursor-pointer">
+                <box-icon name='chevron-right'></box-icon>
+            </div>
+        </div>
+    </div>
+
+export const BtnLeft = ({ className, onClick }) => 
+    <div className={className}>
+        <div onClick={onClick}>
+            <div className="rounded-full shadow mt-6 mr-3 h-16 w-16 flex items-center justify-center bg-gray-200 hover:bg-gray-300 cursor-pointer">
+                <box-icon name='chevron-left'></box-icon>
             </div>
         </div>
     </div>

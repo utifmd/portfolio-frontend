@@ -1,6 +1,6 @@
 import Info from '../detail/Info'
 import { BtnNext } from '../button'
-const App = ({ data }) =>
+const App = ({ data, setDetailImage }) =>
     <div className="py-6">
         <div className="h-px bg-gray-200" />
         <div className="p-6 text-center space-y-7 py-28">
@@ -11,7 +11,7 @@ const App = ({ data }) =>
                     <img src={data?.icon} alt="cretive" className="shadow-lg rounded-full max-w-full h-auto align-middle border-none" />
                 </div>
             </div> {/* <box-icon key={i} className="rounded-full inline-block w-10 h-10 pb-1" name={v} type="logo"/> */}
-            <Info data={data} />
+            <Info data={data} setDetailImage={setDetailImage} />
         </div>
         <BtnNext />
     </div>

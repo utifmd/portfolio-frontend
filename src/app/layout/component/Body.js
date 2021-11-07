@@ -6,9 +6,7 @@ import FormScholars from './form/row/scholars'
 import FormProjects from './form/row/project'
 import { BtnPrimary } from './particular/button'
 
-const App = ({ introItem, neckItems, scholars, setScholars, projects, setProjects, setDetailImage }) => {
-    // console.log(projects);
-return (
+const App = ({ introItem, neckItems, scholars, setScholars, projects, setProjects, setDetailImage }) => { return (
     <div className="bg-gray-100 py-11 space-y-4">
         <BtnPrimary label="Begin" />
         <RowSimple data={introItem} />
