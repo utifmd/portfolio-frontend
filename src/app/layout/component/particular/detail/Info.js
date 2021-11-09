@@ -1,6 +1,6 @@
 const App = ({data, setDetailImage}) => {
 
-  const attachmentKeys = data.kind === 'android' || data.kind === 'ios'
+  let attachmentKeys = data?.kind === 'android' || data?.kind === 'ios'
     ? ['Released apk', 'Download']
     : ['Link address', 'Visit'],
   

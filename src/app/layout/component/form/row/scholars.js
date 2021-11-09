@@ -5,8 +5,9 @@ import { PlaceholderImg } from '../../../../assets'
 import React, { useState, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 
-const App = ({ setScholars }) => { 
-    const inputRef = useRef(null),
+const App = ({ setScholars, xRef, handleScrolling }) => { 
+    const elRefs = useRef({}),
+        inputRef = useRef(null),
         dispatch = useDispatch(),
         initialState = { title: null, desc: 'Scholarship entry', body: null, author: 'utifmd@gmail.com', file: null, tags: ['scholarship']},
         [ stateData, setStateData ] = useState(initialState),
@@ -14,10 +15,13 @@ const App = ({ setScholars }) => {
     handleSubmit = (e) => {
         e.preventDefault()
 
+        
         if(stateData.title && stateData.body && stateData.file){
+            handleScrolling('RowGeneral0')
             dispatch(setScholars(stateData))
             setStateData(initialState)
-        }
+            Object.values(elRefs.current).map((elem) => elem.value = null)
+        }else console.log('fill the field')
     },
     
     handleOpenedFile = async (e) => {
@@ -42,14 +46,14 @@ const App = ({ setScholars }) => {
     })
 
 return( 
-    <div className="py-6">
+    <div ref={xRef} className="py-6">
         <div className="h-px bg-gray-200" />
         <div className="p-6 text-center space-y-7 py-28">
             <p className="font-bold text-3xl uppercase">Scholarsip Entry</p>
             <div className="flex justify-center"><div className=" h-0.5 w-24 bg-black"/></div>
                 <div className="grid gap-4 md:grid-cols-2 mb-4">
                     <div className="md:col-span-2">
-                        <input type="text" placeholder="Enter title" className="appearance-none block w-full bg-gray-200 text-gray-700 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"
+                        <input ref={(e) => elRefs.current['title'] = e} type="text" placeholder="Enter title" className="appearance-none block w-full bg-gray-200 text-gray-700 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"
                             onChange={(e) => setStateData({...stateData, title: e.target.value.trim()})}/></div>
                     <div className="relative bg-white overflow-hidden appearance-none block w-full bg-gray-200 text-gray-700 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600">
                     { stateData.file ?
@@ -59,8 +63,8 @@ return(
                             onChange={handleOpenedFile} />
                     </div>
                     <div className="h-full w-full space-y-4 text-left">
-                        <textarea type="text" placeholder="Enter message" onChange={(e) => setStateData({...stateData, body: e.target.value.trim()})} className="appearance-none block w-full bg-gray-200 text-gray-700 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"/>
-                        <input type="text" placeholder="Enter some tags" className="appearance-none block w-full bg-gray-200 text-gray-700 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"
+                        <textarea ref={(e) => elRefs.current['message'] = e} type="text" placeholder="Enter message" onChange={(e) => setStateData({...stateData, body: e.target.value.trim()})} className="appearance-none block w-full bg-gray-200 text-gray-700 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"/>
+                        <input ref={(e) => elRefs.current['tags'] = e} type="text" placeholder="Enter some tags" className="appearance-none block w-full bg-gray-200 text-gray-700 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"
                             onKeyUp={handleTagsEvent} />
                             <div className="hidden">
                                 <div className="absolute z-40 left-0 mt-2 w-full">

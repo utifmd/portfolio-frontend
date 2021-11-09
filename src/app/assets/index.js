@@ -4,57 +4,7 @@ export const PlaceholderSvg = ({ onClick }) =>
     <svg className="h-full w-full cursor-pointer fill-current text-gray-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" onClick={onClick}><circle cx="18" cy="6" r="3"></circle><path d="M20 18v-7.422A4.962 4.962 0 0 1 18 11a5 5 0 0 1-5-5c0-.712.153-1.387.422-2H6c-.178 0-.347.031-.51.076L3.707 2.293 2.293 3.707l18 18 1.414-1.414-1.783-1.783c.045-.163.076-.332.076-.51zM4 18c0 1.103.897 2 2 2h9.879L4 8.121V18z"></path></svg>
 
 export const PlaceholderImg = ({ onClick }) => 
-    <svg className="h-full w-full cursor-pointer fill-current text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" onClick={onClick}><path d="M18.944 11.112C18.507 7.67 15.56 5 12 5 9.244 5 6.85 6.611 5.757 9.15 3.609 9.792 2 11.82 2 14c0 2.757 2.243 5 5 5h11c2.206 0 4-1.794 4-4a4.01 4.01 0 0 0-3.056-3.888zM13 14v3h-2v-3H8l4-5 4 5h-3z"></path></svg>
+    <svg className="h-full w-full cursor-pointer fill-current text-gray-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" onClick={onClick}><path d="M18.944 11.112C18.507 7.67 15.56 5 12 5 9.244 5 6.85 6.611 5.757 9.15 3.609 9.792 2 11.82 2 14c0 2.757 2.243 5 5 5h11c2.206 0 4-1.794 4-4a4.01 4.01 0 0 0-3.056-3.888zM13 14v3h-2v-3H8l4-5 4 5h-3z"></path></svg>
 
 export const PlaceholderQueue = ({ onClick, clazz }) => 
-    <svg className={`${clazz} cursor-pointer fill-current text-green-600`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" onClick={onClick}><path d="M20 2H8c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zM8 16V4h12l.002 12H8z"></path><path d="M4 8H2v12c0 1.103.897 2 2 2h12v-2H4V8zm11-2h-2v3h-3v2h3v3h2v-3h3V9h-3z"></path></svg>
-
-// <svg className="h-full w-full cursor-pointer fill-current text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" onClick={onClick}><path d="M4 5h13v7h2V5c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h8v-2H4V5z"></path><path d="m8 11-3 4h11l-4-6-3 4z"></path><path d="M19 14h-2v3h-3v2h3v3h2v-3h3v-2h-3z"></path></svg>
-/* <figure className="md:flex bg-gray-100 rounded-xl p-8 m-8 md:p-0">
-    <img className="w-32 h-32 md:w-48 md:h-auto md:rounded-none rounded-full mx-auto" src={logo} alt={logo} width="384" height="512" />
-    <div className="pt-6 md:p-8 text-center md:text-left space-y-4">
-        <blockquote>
-            <p className="text-lg font-semibold">
-                “Tailwind CSS is the only framework that I've seen scale
-                on large teams. It’s easy to customize, adapts to any design,
-                and the build size is tiny.”
-            </p>
-        </blockquote>
-        <figcaption className="font-medium">
-            <div className="text-cyan-600">
-                Sarah Dayan
-            </div>
-            <div className="text-gray-500">
-                Staff Engineer, Algolia
-            </div>
-        </figcaption>
-    </div>
-</figure>
-<div className="p-6 m-6 max-w-sm mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4">
-    <div className="flex-shrink-0">
-        <img className="h-12 w-12" src={logo} alt="ChitChat Logo" />
-    </div>
-    <div>
-        <div className="text-xl font-medium text-black">ChitChat</div>
-        <p className="text-gray-500">You have a new message!</p>
-    </div>
-</div>
-<div className="grid grid-flow-col grid-rows-2 grid-cols-3 gap-4">
-    <div>1</div>
-    <div className="col-start-3">2</div>
-    <div>3</div>
-    <div>4</div>
-    <div className="row-start-1 col-start-2 col-span-2">5</div>
-</div> 
-<div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
-    <div className="md:flex">
-        <div className="md:flex-shrink-0">
-        <img className="h-48 w-full object-cover md:w-48" src={logo} alt="Man looking at item at a store" />
-        </div>
-        <div className="p-8">
-        <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Case study</div>
-        <span className="block mt-1 text-lg leading-tight font-medium text-black hover:underline">Finding customers for your new business</span>
-        <p className="mt-2 text-gray-500">Getting a new business off the ground is a lot of hard work. Here are five ideas you can use to find your first customers.</p>
-        </div>
-    </div>
-</div> */
+    <svg className={`${clazz} cursor-pointer fill-current text-gray-300`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" onClick={onClick}><path d="M20 2H8c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zM8 16V4h12l.002 12H8z"></path><path d="M4 8H2v12c0 1.103.897 2 2 2h12v-2H4V8zm11-2h-2v3h-3v2h3v3h2v-3h3V9h-3z"></path></svg>

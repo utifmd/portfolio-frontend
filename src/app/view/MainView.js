@@ -10,7 +10,7 @@ function App({ introItem, neckItems, scholars, setScholars, projects, setProject
   const [ showModal, setShowModal ] = useState(false),
     [ detailImage, setDetailImage ] = useState(null)
 
-  return ( /*container mx-auto px-4 md:container md:mx-auto*/
+  return (
     <div className="container max-w-xl mx-auto">
       <Header />
       <Body introItem={introItem} 

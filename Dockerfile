@@ -1,17 +1,13 @@
 FROM node:latest
 
-WORKDIR /usr/app
+WORKDIR ./var/www/html/personal
 
-COPY package*.json yarn.lock ./
+COPY ./package*.json yarn.lock ./
 
-RUN yarn
+RUN yarn install
+
+CMD ["npm", "run", "start"]
 
 COPY . .
 
-# ENV NODE_ENV=production
-
-RUN yarn build
-
 EXPOSE 3000
-
-CMD ["yarn","start"]
