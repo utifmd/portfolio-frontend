@@ -8,7 +8,7 @@ import FormProjects from './form/row/project'
 import { BtnPrimary } from './particular/button'
 import { useRef } from 'react'
 
-const App = ({ introItem, neckItems, scholars, setScholars, projects, setProjects, setDetailImage }) => {
+const App = ({ introItem, neckItems, scholars, setScholars, projects, setProjects, user, setDetailImage, xRef }) => {
     const elRefs = useRef({}),
 
         handleXref = (key, e) => { 
@@ -20,7 +20,7 @@ const App = ({ introItem, neckItems, scholars, setScholars, projects, setProject
         }
         
     return (
-        <div className="bg-gray-100 py-11 space-y-4">
+        <div ref={xRef} className="bg-gray-100 py-11 space-y-4 animate-fade-in-up">
             <BtnPrimary label="Begin"
                 xRef={(e) => handleXref('BtnPrimary', e)} 
                 onClick={() => handleScrolling('RowSimple')} />
@@ -37,20 +37,22 @@ const App = ({ introItem, neckItems, scholars, setScholars, projects, setProject
                     key={key} 
                     data={project} 
                     setDetailImage={setDetailImage} /> ) : null : null }
-            <FormProjects 
-                xRef={(e) => handleXref('FormProjects', e)}
-                setProjects={setProjects} 
-                handleScrolling={handleScrolling} />
+            { user ?
+                <FormProjects 
+                    xRef={(e) => handleXref('FormProjects', e)}
+                    setProjects={setProjects} 
+                    handleScrolling={handleScrolling} /> : null }
             { scholars ? scholars.length ? scholars.map((scholar, key) => 
                 <RowGeneral 
                     xRef={(e) => handleXref(`RowGeneral${key}`, e)}
                     key={key}
                     data={scholar} 
                     setDetailImage={setDetailImage} /> ) : null : null }
-            <FormScholars 
-                xRef={(e) => handleXref('FormScholars', e)} 
-                setScholars={setScholars}
-                handleScrolling={handleScrolling} />
+            { user ?
+                <FormScholars 
+                    xRef={(e) => handleXref('FormScholars', e)} 
+                    setScholars={setScholars}
+                    handleScrolling={handleScrolling} /> : null }
         </div>
     )}
 

@@ -1,3 +1,7 @@
+export const USER_SIGN_UP = 'user_sign_up'
+export const USER_SIGN_IN = 'user_sign_in'
+export const USER_SIGN_OUT = 'user_sign_out'
+
 export const SCHOLAR_CREATE = 'scholar_create'
 export const SCHOLAR_READ_ALL = 'scholar_read_all'
 export const SCHOLAR_READ = 'scholar_read'

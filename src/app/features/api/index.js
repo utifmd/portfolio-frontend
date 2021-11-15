@@ -1,10 +1,17 @@
 import axios from 'axios'
-import { scholars, projects } from '../../../domain'
+import { scholars, projects, auth } from '../../../domain'
 
 const url = // "https://pages-backend.herokuapp.com" //"https://portfolio-utifmd.herokuapp.com/"
     "http://127.0.0.1:5000/" 
 
 const client = axios.create({baseURL: url, timeout: 20000})
+
+/* SEPARATOR */
+
+export const signIn = (user) => 
+    client.post(`/${auth}/signin`, user)
+
+/* SEPARATOR */
 
 export const fetchScholars = () => 
     client.get(`/${scholars}`)
@@ -18,14 +25,14 @@ export const updateScholars = (id, newPost) =>
 export const deleteScholars = (id) => 
     client.delete(`/${scholars}/${id}`)
 
-    /*SEPARATOR*/
+    /* SEPARATOR */
 
 export const readProjects = () => 
     client.get(`/${projects}`)
 
 export const createProject = (newPost) => 
     client.post(`/${projects}`, newPost, { onUploadProgress: progressEvent => {
-        const current = progressEvent.loaded //currentTarget.progress
+        const current = progressEvent.loaded // currentTarget.progress
         const total = progressEvent.total // currentTarget.responseHeaders['Content-Length']
 
         let percentComplete = Math.floor(current / total * 100)

@@ -5,7 +5,7 @@ import './app/assets/index.css';
 import 'boxicons'
 
 import App from './app/App';
-import { introItem, neckItems } from './data/repos/local'
+import { introItem, neckItems, profileItem } from './data/repos/local'
 import reducers from './usecase';
 
 import { Provider } from 'react-redux'
@@ -17,7 +17,7 @@ const store = createStore(reducers, compose(applyMiddleware(thunk)))
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App introItem={introItem} neckItems={neckItems}/>
+      <App profileItem={profileItem} introItem={introItem} neckItems={neckItems}/>
     </Provider>
   </React.StrictMode>, document.getElementById('root')
 )
