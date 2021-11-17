@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap'); /* ./src/index.css */
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
-body {
+html {
+  @apply font-sans
+}
+/* body {
   margin: 0;
   font-family: 'Raleway', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -15,4 +15,4 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
+} */

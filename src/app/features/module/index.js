@@ -20,3 +20,7 @@ export const toLowerImage = (imageFile, options = {
         reject(error.message)
     }
 })
+
+// export const local = () => {
+//     local = localStorage.getItem('profile')
+// }

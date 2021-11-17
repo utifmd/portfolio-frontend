@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { scholars, projects, auth } from '../../../domain'
 
-const url = // "https://pages-backend.herokuapp.com" //"https://portfolio-utifmd.herokuapp.com/"
-    "http://127.0.0.1:5000/" 
+const url = "https://portfolio-utifmd.herokuapp.com/" 
+//"http://127.0.0.1:5000/" // || 
 
 const client = axios.create({baseURL: url, timeout: 20000})
 
@@ -31,19 +31,7 @@ export const readProjects = () =>
     client.get(`/${projects}`)
 
 export const createProject = (newPost) => 
-    client.post(`/${projects}`, newPost, { onUploadProgress: progressEvent => {
-        const current = progressEvent.loaded // currentTarget.progress
-        const total = progressEvent.total // currentTarget.responseHeaders['Content-Length']
-
-        let percentComplete = Math.floor(current / total * 100)
-
-        console.log(`percentComplete ${percentComplete}`) 
-        console.log(`progress ${progressEvent.progress}`) 
-    }}).then((resp) => {
-        console.log(`Completed ${resp.headers}`)
-
-        return resp.data
-    })
+    client.post(`/${projects}`, newPost)
     
 export const updateProject = (id, newPost) => 
     client.patch(`/${projects}/${id}`, newPost)

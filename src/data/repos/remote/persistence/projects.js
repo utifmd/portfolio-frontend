@@ -16,8 +16,8 @@ export const createProject = (newProject) => async (dispatch) => {
         const { data } = await api.createProject(newProject)
 
         dispatch({ type: PROJECT_CREATE, payload: data })
-    } catch (error) {
-        console.log(error)
+    } catch (error) { console.log(error)
+        dispatch({ type: PROJECT_CREATE, message: 'Something went wrong.' })
     }
 }
 

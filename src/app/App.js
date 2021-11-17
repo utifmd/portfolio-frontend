@@ -2,38 +2,45 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 
 import { signIn, signOut } from '../data/repos/remote/persistence/auth'
-import { createPost, getPosts } from '../data/repos/remote/persistence/scholars'
+import { createScholar, readScholars } from '../data/repos/remote/persistence/scholars'
 import { createProject, readProjects } from '../data/repos/remote/persistence/projects'
 
 import MainView from './view/MainView'
-import Preloader from './layout/component/Preloader'
+// import Preloader from './layout/component/Preloader'
 
 const App = ({ introItem, neckItems, profileItem }) => {
     const dispatch = useDispatch(),
-        [ user, setUser ] = useState(JSON.parse(localStorage.getItem('profile'))),
-        { scholars, projects } = useSelector((state) => state),
-
-    handleSignOut = (e) => {
+    { scholars, projects, auth } = useSelector((state) => state),
+    [ currentUser, setCurrentUser ] = useState(localStorage.getItem('profile')),
+    
+    handleSignOut = () => {
         dispatch(signOut())
-        setUser(null)
+        setCurrentUser(null)
     }
     
     useEffect(() => {
-        dispatch(getPosts())
+        dispatch(readScholars())
         dispatch(readProjects())
     }, [ dispatch ])
 
-    return projects || scholars ? (
+    return( 
         <MainView 
+            auth={auth}
+            scholars={scholars} setScholars={createScholar}
+            projects={projects} setProjects={createProject}
+            
+            signIn={signIn} 
+            user={currentUser || auth?.result} 
+            handleSignOut={handleSignOut}
+            
             introItem={introItem}
             neckItems={neckItems}
-            profileItem={profileItem}
-            signIn={signIn} user={user} handleSignOut={handleSignOut}
-            scholars={scholars} setScholars={createPost}
-            projects={projects} setProjects={createProject} />
-    ) : ( 
-        <Preloader /> 
-    )
+            profileItem={profileItem}/> )
+            
+    // return projects || scholars ? (
+    // ) : ( 
+    //     <Preloader /> 
+    // )
 }
 
 export default App

@@ -3,7 +3,7 @@ import { PROJECT_CREATE, PROJECT_READ_ALL, PROJECT_UPDATE, PROJECT_DELETE } from
 const App = (projects = [], action) => {
     switch (action.type) {
         case PROJECT_CREATE:
-            return [ ...projects, action.payload ]
+            return [ ...projects, {...action?.payload, message: action?.message} ]
         case PROJECT_READ_ALL:
             return action.payload
         case PROJECT_UPDATE:

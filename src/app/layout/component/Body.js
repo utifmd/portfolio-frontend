@@ -8,7 +8,7 @@ import FormProjects from './form/row/project'
 import { BtnPrimary } from './particular/button'
 import { useRef } from 'react'
 
-const App = ({ introItem, neckItems, scholars, setScholars, projects, setProjects, user, setDetailImage, xRef }) => {
+const App = ({ introItem, neckItems, scholars, setScholars, projects, setProjects, user, setDetailImage, xRef, setShowSnackbar }) => {
     const elRefs = useRef({}),
 
         handleXref = (key, e) => { 
@@ -20,7 +20,7 @@ const App = ({ introItem, neckItems, scholars, setScholars, projects, setProject
         }
         
     return (
-        <div ref={xRef} className="bg-gray-100 py-11 space-y-4 animate-fade-in-up">
+        <div ref={xRef} className="py-11 space-y-4 animate-fade-in-down bg-gradient-to-tl from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900">
             <BtnPrimary label="Begin"
                 xRef={(e) => handleXref('BtnPrimary', e)} 
                 onClick={() => handleScrolling('RowSimple')} />
@@ -31,28 +31,30 @@ const App = ({ introItem, neckItems, scholars, setScholars, projects, setProject
             <RowGreeting 
                 xRef={(e) => handleXref('RowGreeting', e)} 
                 data={neckItems} />
-            { projects ? projects.length ? projects.map((project, key) => 
+            { projects.length ? projects.map((project, key) => 
                 <RowComplex 
                     xRef={(e) => handleXref(`RowComplex${key}`, e)}
                     key={key} 
                     data={project} 
-                    setDetailImage={setDetailImage} /> ) : null : null }
+                    setDetailImage={setDetailImage} /> ) :null }
             { user ?
                 <FormProjects 
                     xRef={(e) => handleXref('FormProjects', e)}
                     setProjects={setProjects} 
-                    handleScrolling={handleScrolling} /> : null }
-            { scholars ? scholars.length ? scholars.map((scholar, key) => 
+                    setShowSnackbar={setShowSnackbar}
+                    handleScrolling={handleScrolling} /> :null }
+            { scholars.length ? scholars.map((scholar, key) => 
                 <RowGeneral 
                     xRef={(e) => handleXref(`RowGeneral${key}`, e)}
                     key={key}
                     data={scholar} 
-                    setDetailImage={setDetailImage} /> ) : null : null }
+                    setDetailImage={setDetailImage} /> ) :null }
             { user ?
                 <FormScholars 
                     xRef={(e) => handleXref('FormScholars', e)} 
                     setScholars={setScholars}
-                    handleScrolling={handleScrolling} /> : null }
+                    setShowSnackbar={setShowSnackbar}
+                    handleScrolling={handleScrolling} /> :null }
         </div>
     )}
 
