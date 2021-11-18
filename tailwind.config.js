@@ -2,7 +2,7 @@ const defaultTheme = require('tailwindcss/defaultTheme');  // import the defaul 
  
 module.exports = {
   purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
-  darkMode: 'media',
+  darkMode: 'class',
   theme: {
     container: {
       center: true
@@ -12,6 +12,10 @@ module.exports = {
         sans: ['Raleway', ...defaultTheme.fontFamily.sans],
       },
       keyframes: {
+        'marquee': {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
         'fade-in-up': {
             '0%': {
                 opacity: '0',
@@ -34,6 +38,7 @@ module.exports = {
         }
       },
       animation: {
+          'marquee': 'marquee 25s linear infinite',
           'fade-in-up': 'fade-in-up 0.5s ease-out',
           'fade-in-down': 'fade-in-down 1s ease-out'
       }

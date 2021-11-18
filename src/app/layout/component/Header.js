@@ -4,7 +4,7 @@ const App = ({animate, onClick, xRef}) =>
         <div className="flex justify-center">
             <div className="h-0.5 w-24 bg-gray-900 dark:bg-gray-100 my-7"></div>
         </div>
-        <p className="text-base uppercase tracking-widest px-6 text-gray-900 dark:text-gray-100" onClick={onClick}>A Little single page by Utif Milkedori</p>
+        <p className="text-base cursor-pointer uppercase tracking-widest px-6 text-gray-900 dark:text-gray-100" onClick={onClick}>A Little single page by Utif Milkedori</p>
     </header>
 
 export default App

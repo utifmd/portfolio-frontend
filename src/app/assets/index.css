@@ -5,6 +5,22 @@
 html {
   @apply font-sans
 }
+
+html {
+  --color-background: #F3F4F6;
+  --color-foreground: #111827;
+
+  @media (prefers-color-scheme: dark) {
+    --color-background: #111827;
+    --color-foreground: #F3F4F6;
+  }
+}
+
+input:checked ~ .dot {
+  transform: translateX(100%);
+  background-color: #059669;
+}
+
 /* body {
   margin: 0;
   font-family: 'Raleway', sans-serif;

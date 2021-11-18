@@ -1,4 +1,4 @@
-const App = ({data, setDetailImage}) => {
+const App = ({data, dark, setDetailImage}) => {
 
   let attachmentKeys = data?.kind === 'android' || data?.kind === 'ios'
     ? ['Released apps', 'Download']
@@ -38,7 +38,7 @@ return (
               { data?.screenshot?.length ?
                 <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
                   <div className="w-0 flex-1 flex items-center">
-                    <box-icon color="#059669" name="image"/>
+                    <box-icon color={dark? '#F3F4F6': '#111827'} name="image"/>
                     <span className="ml-2 flex-1 w-0 truncate">Screenshot</span>
                   </div>
                   <div className="ml-4 flex-shrink-0">
@@ -47,7 +47,7 @@ return (
                 </li> : null }
                 <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
                   <div className="w-0 flex-1 flex items-center">
-                    <box-icon color="#059669" name="link-external"/>
+                    <box-icon color={dark? '#F3F4F6': '#111827'} name="link-external"/>
                     <span className="ml-2 flex-1 w-0 truncate">{ attachmentKeys[0] }</span>
                   </div>
                   <div className="ml-4 flex-shrink-0">

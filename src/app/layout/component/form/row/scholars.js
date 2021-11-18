@@ -2,27 +2,37 @@ import { toBase64, toLowerImage } from '../../../../features/module'
 import { BtnPrimary } from '../../particular/button'
 import { PlaceholderImg } from '../../../../assets'
 
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
 const initialState = { title: null, desc: 'Scholarship entry', body: null, author: 'utifmd@gmail.com', file: null, tags: ['scholarship'] }
 
-const App = ({ setScholars, xRef, setShowSnackbar, handleScrolling }) => { 
+const App = ({ formState, scholars, setScholars, updateScholar, xRef, setShowSnackbar, handleScrolling }) => { 
     const elRefs = useRef({}),
         inputRef = useRef(null),
         dispatch = useDispatch(),
         [ stateData, setStateData ] = useState(initialState),
+        { currentPid } = formState?.scholars,
+        selectedScholar = currentPid? scholars.find((item) => item._id === currentPid): null,
         
     handleSubmit = (e) => {
         e.preventDefault()
 
         if(stateData.title && stateData.body && stateData.file){
-            handleScrolling('RowGeneral0')
-            dispatch(setScholars(stateData))
-            setStateData(initialState)
-            Object.values(elRefs.current).map((elem) => elem.value = null)
+            if(currentPid) 
+                dispatch(updateScholar(currentPid, stateData))
+            else 
+                dispatch(setScholars(stateData))
+
+            handleSubmitted()
         } else 
             setShowSnackbar({body: 'fill the fields.'})
+    },
+    
+    handleSubmitted = () => {
+        handleScrolling('RowGeneral0')
+        setStateData(initialState)
+        Object.values(elRefs.current).map((elem) => elem.value = null)
     },
     
     handleOpenedFile = async (e) => {
@@ -46,10 +56,17 @@ const App = ({ setScholars, xRef, setShowSnackbar, handleScrolling }) => {
         stateData.tags.filter((v, i) => i !== key)
     })
 
+
+    useEffect(() => {
+        if(selectedScholar) 
+            setStateData(selectedScholar)
+
+    }, [ selectedScholar ])
+
 return( 
-    <div ref={xRef} className="py-6 animate-fade-in-up">
+    <div className="py-6 animate-fade-in-up">
         <div className="h-px bg-gray-200 dark:bg-gray-800"/>
-        <div className="p-6 text-center space-y-7 py-28">
+        <div ref={xRef} className="p-6 text-center space-y-7 py-28">
             <p className="font-bold text-3xl uppercase text-gray-900 dark:text-gray-100">Scholarsip Entry</p>
             <div className="flex justify-center"><div className=" h-0.5 w-24 bg-gray-900 dark:bg-gray-100"/></div>
                 <div className="grid gap-4 md:grid-cols-2 mb-4">
@@ -57,16 +74,19 @@ return(
                         <input className="appearance-none block w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"
                             ref={(e) => elRefs.current['title'] = e} 
                             type="text" placeholder="Enter title" 
-                            onChange={(e) => setStateData({...stateData, title: e.target.value.trim()})}/></div>
+                            value={stateData?.title}
+                            onChange={(e) => setStateData({...stateData, title: e.target.value})}/></div>
                     <div className="relative bg-white overflow-hidden appearance-none block w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600">
                     { stateData.file ?
                         <img className="object-contain h-full w-full cursor-pointer" src={stateData.file} alt="add new stateData" onClick={() => inputRef.current.click()} /> : <PlaceholderImg onClick={() => inputRef.current.click()} /> }
                         <input ref={inputRef} className="hidden" type="file" id="file"
-                            multiple={false} 
+                            multiple={false}
                             onChange={handleOpenedFile} />
                     </div>
                     <div className="h-full w-full space-y-4 text-left">
-                        <textarea ref={(e) => elRefs.current['message'] = e} type="text" placeholder="Enter message" onChange={(e) => setStateData({...stateData, body: e.target.value.trim()})} className="appearance-none block w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"/>
+                        <textarea ref={(e) => elRefs.current['message'] = e} type="text" placeholder="Enter message" className="appearance-none block w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"
+                            value={stateData?.body}
+                            onChange={(e) => setStateData({...stateData, body: e.target.value})} />
                         <input ref={(e) => elRefs.current['tags'] = e} type="text" placeholder="Enter some tags" className="appearance-none block w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"
                             onKeyUp={handleTagsEvent} />
                             <div className="hidden">
@@ -86,7 +106,7 @@ return(
                         )}
                     </div>
                 </div>
-                <BtnPrimary label="Post" onClick={handleSubmit} />
+                <BtnPrimary label={currentPid? 'Edit': 'Post'} onClick={handleSubmit} />
         </div>
     </div>)}
     

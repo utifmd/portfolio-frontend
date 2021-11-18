@@ -6,10 +6,8 @@ export const BtnPrimary = ({ xRef, type, label, onClick }) =>
 
 export const BtnNext = ({ onClick }) => 
     <div className="flex justify-center">
-        <div onClick={onClick}>
-            <div className="rounded-full h-16 w-16 flex items-center justify-center bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-800 dark:bg-gray-700 dark:hover:bg-gray-800 cursor-pointer">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 fill-current text-green-600" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
-            </div>
+        <div onClick={onClick} className="rounded-full h-16 w-16 flex items-center justify-center bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-800 dark:bg-gray-700 dark:hover:bg-gray-800 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 fill-current text-green-600" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
         </div>
     </div>
 
