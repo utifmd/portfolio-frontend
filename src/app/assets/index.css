@@ -2,11 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+* { 
+  -webkit-tap-highlight-color: rgba(0,0,0,0); 
+}
+
 html {
   @apply font-sans
 }
 
-html {
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+input:checked ~ .dot {
+  transform: translateX(100%);
+  background-color: #059669;
+}
+
+/* html {
   --color-background: #F3F4F6;
   --color-foreground: #111827;
 
@@ -14,12 +28,7 @@ html {
     --color-background: #111827;
     --color-foreground: #F3F4F6;
   }
-}
-
-input:checked ~ .dot {
-  transform: translateX(100%);
-  background-color: #059669;
-}
+} */
 
 /* body {
   margin: 0;

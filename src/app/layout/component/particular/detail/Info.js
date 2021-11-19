@@ -19,12 +19,12 @@ return (
       <div className="border-t dark:border-gray-600 border-gray-300">
         <dl>
           <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Full name</dt>
+            <dt className="text-sm font-medium text-gray-500">Name</dt>
             <dd className="mt-1 text-sm text-gray-900 dark:text-gray-100 sm:mt-0 sm:col-span-2">{data?.title}</dd>
           </div>
           <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-t dark:border-gray-600 border-gray-300">
-            <dt className="text-sm font-medium text-gray-500">Kind</dt>
-            <dd className="mt-1 text-sm text-gray-900 dark:text-gray-100 sm:mt-0 sm:col-span-2">{data?.kind}</dd>
+            <dt className="text-sm font-medium text-gray-500">Platform</dt>
+            <dd className="mt-1 text-sm text-gray-900 dark:text-gray-100 sm:mt-0 sm:col-span-2 uppercase">{data?.kind}</dd>
           </div>
           <div className="w-full h-auto px-4 py-4 flex flex-wrap border-t dark:border-gray-600 border-gray-300"> 
           { data?.stack?.map((v, i) => 
@@ -37,11 +37,11 @@ return (
               <ul role="listitem" className="border border-gray-300 dark:border-gray-600 rounded-md divide-y divide-gray-300 dark:divide-gray-600">
               { data?.screenshot?.length ?
                 <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
-                  <div className="w-0 flex-1 flex items-center">
+                  <div key="key1" className="w-0 flex-1 flex items-center">
                     <box-icon color={dark? '#F3F4F6': '#111827'} name="image"/>
                     <span className="ml-2 flex-1 w-0 truncate">Screenshot</span>
                   </div>
-                  <div className="ml-4 flex-shrink-0">
+                  <div key="key2" className="ml-4 flex-shrink-0">
                     <div onClick={handleScreenshot} className="font-medium text-green-600 hover:text-green-500 cursor-pointer">View</div>
                   </div>
                 </li> : null }

@@ -7,23 +7,17 @@ import ModalImage from '../layout/component/particular/detail/Picture'
 import Snackbar from '../layout/component/particular/detail/Snackbar'
 import { useState, useRef, useEffect } from 'react'
 
-function App({ 
+function App({
   introItem, neckItems, profileItem, 
-  auth, scholars, setScholars, updateScholar, 
-  projects, setProjects, updateProject, 
-  user, signIn, handleSignOut }) {
+  auth, scholars, setScholars, updateScholar, deleteScholar,
+  projects, setProjects, updateProject, deleteProject, 
+  user, signIn, handleSignOut, 
+  dark, setDark }) {
   
   const elRefs = useRef({}),
-    [ dark, setDark ] = useState(false),
     [ showModal, setShowModal ] = useState(false),
     [ detailImage, setDetailImage ] = useState(null),
     [ showSnackbar, setShowSnackbar ] = useState(null),
-  
-    handleDarkMode = () => {
-      let { classList } = document.documentElement
-      
-      dark? classList.add('dark'): classList.remove('dark')
-    },
   
     handleRef = (key, e) => {
       elRefs.current[key] = e
@@ -51,22 +45,18 @@ function App({
       }, 5000)
     }, [ showSnackbar ])
 
-    useEffect(() => {
-      handleDarkMode()
-    }, [ dark ])
-
   return (
     <div className="">
-      <div className="relative min-h-screen flex items-center justify-center 
+      <div className="relative min-h-screen flex items-center justify-center ease-linear transition-all duration-500
         bg-gradient-to-br from-gray-200 to-gray-100 dark:from-gray-900 dark:to-gray-800"> {/*container max-w-xl mx-auto*/}
         <section className="container max-w-xl mx-auto">
           <Header xRef={(e) => handleRef(0, e)} onClick={() => handleScroll(2)} />
           <Body xRef={(e) => handleRef(1, e)} 
             introItem={introItem} neckItems={neckItems} user={user}
-            scholars={scholars} setScholars={setScholars} updateScholar={updateScholar}
-            projects={projects} setProjects={setProjects} updateProject={updateProject}
+            scholars={scholars} setScholars={setScholars} updateScholar={updateScholar} deleteScholar={deleteScholar}
+            projects={projects} setProjects={setProjects} updateProject={updateProject} deleteProject={deleteProject}
             setDetailImage={setDetailImage} setShowSnackbar={setShowSnackbar}
-            dark={dark} setDark={setDark} handleDarkMode={handleDarkMode} 
+            dark={dark} setDark={setDark}
             handleMainScrolling={handleScroll}/>
           <Profile xRef={(e) => handleRef(2, e)} 
             data={profileItem} 

@@ -19,10 +19,10 @@ const initialFormState = {
 }
 
 const Body = ({ introItem, neckItems, user, 
-    scholars, setScholars, updateScholar, 
-    projects, setProjects, updateProject, 
+    scholars, setScholars, updateScholar, deleteScholar, 
+    projects, setProjects, updateProject, deleteProject,
     setDetailImage, xRef, setShowSnackbar, handleMainScrolling, 
-    dark, setDark, handleDarkMode }) => {
+    dark, setDark }) => {
     const elRefs = useRef({}),
         [ formState, setFormState ] = useState(initialFormState),
 
@@ -54,13 +54,14 @@ const Body = ({ introItem, neckItems, user,
             <RowGreeting 
                 xRef={(e) => handleXref('RowGreeting', e)} 
                 onClick={() => handleScrolling(projects.length? 'RowComplex0': 'RowGeneral0')}
-                dark={dark}
-                data={neckItems} />
+                dark={dark} data={neckItems} />
         { projects.length ? projects.map((project, key) => 
-            <RowComplex 
-                xKey={project._id} 
+            <RowComplex
+                key={project._id}
+                xKey={key+1} maxKey={projects.length}
                 xRef={(e) => handleXref(`RowComplex${key}`, e)}
                 data={project} dark={dark} user={user}
+                deleteProject={deleteProject}
                 onEditClick={() => handleFormFocus('FormProjects', project._id)}
                 handleScrolling={handleScrolling}
                 setDetailImage={setDetailImage} /> ) :null }
@@ -75,11 +76,14 @@ const Body = ({ introItem, neckItems, user,
                 handleScrolling={handleScrolling} /> :null }
         { scholars.length ? scholars.map((scholar, key) => 
             <RowGeneral 
-                xKey={scholar._id}
+                key={scholar._id}
+                xKey={key+1} maxKey={scholars.length}
                 xRef={(e) => handleXref(`RowGeneral${key}`, e)}
                 data={scholar} user={user}
+                deleteScholar={deleteScholar}
                 onEditClick={() => handleFormFocus('FormScholars', scholar._id)}
                 handleScrolling={handleScrolling}
+                handleMainScrolling={handleMainScrolling}
                 setDetailImage={setDetailImage} /> ) :null }
         { user ?
             <FormScholars 
@@ -95,7 +99,6 @@ const Body = ({ introItem, neckItems, user,
                 user={user}
                 dark={dark}
                 setDark={setDark}
-                handleDarkMode={handleDarkMode}
                 handleScrolling={handleScrolling}
                 handleMainScrolling={handleMainScrolling} />
         </div>

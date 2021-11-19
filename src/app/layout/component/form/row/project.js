@@ -11,13 +11,13 @@ const App = ({ formState, projects, setProjects, updateProject, xRef, handleScro
         refIcon = useRef(null),
         refScreenshot = useRef(null),
         initialState = { 
-            title: null,
-            description: null,
+            title: '',
+            description: '',
             kind: 'website',
             stack: [],
-            icon: null,
+            icon: '',
             screenshot: [],
-            source: null},
+            source: ''},
         [ stateData, setStateData ] = useState(initialState),
         [ stateHeadSource, setStateHeadSource ] = useState('https://www.'),
         { title, description, kind, stack, icon, screenshot, source } = stateData,
@@ -27,7 +27,7 @@ const App = ({ formState, projects, setProjects, updateProject, xRef, handleScro
     handleSubmit = () => {
         let finalData = {...stateData, source: stateHeadSource+source}
 
-        if(title && description && kind && icon && source){
+        if(title.length && description.length && kind.length && icon.length && source.length){
             if(currentPid)
                 dispatch(updateProject(currentPid, finalData))
             else
@@ -82,7 +82,7 @@ return(
                         <input className="appearance-none block w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"
                             type="text" placeholder="Enter projct name" 
                             ref={(e) => elRefs.current['title'] = e} 
-                            value={stateData?.title}
+                            value={stateData.title}
                             onChange={(e) => setStateData({...stateData, title: e.target.value})}/>
                     </div>
                     <div className="md:col-span-2 flex flex-inline">
@@ -95,7 +95,7 @@ return(
                         <input className="appearance-none block w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"
                             type="text" placeholder="Enter source link" 
                             ref={(e) => elRefs.current['source'] = e} 
-                            value={stateData?.source}
+                            value={stateData.source.split('www.')[1]}
                             onChange={(e) => setStateData({ ...stateData, source: e.target.value })} />
                     </div>
                     <div className="relative bg-white overflow-hidden appearance-none block w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600">
@@ -133,7 +133,7 @@ return(
                         ) : null : null}
                         <textarea type="text" placeholder="Enter app description" className="appearance-none block w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"
                             ref={(e) => elRefs.current['description'] = e} 
-                            value={stateData?.description}
+                            value={stateData.description}
                             onChange={(e) => setStateData({...stateData, description: e.target.value})} />
                     </div>
                     <div className="md:col-span-2"> 
@@ -145,7 +145,7 @@ return(
                         </div>
                     </div>
                 </div>
-                <BtnPrimary label={currentPid? 'Edit': 'Post'} label="Post" onClick={handleSubmit} />
+                <BtnPrimary label={currentPid? 'Edit': 'Post'} onClick={handleSubmit} />
         </div>
     </div>)}
     

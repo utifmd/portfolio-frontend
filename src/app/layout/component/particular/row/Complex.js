@@ -1,6 +1,9 @@
 import Info from '../detail/Info'
 import { BtnNext } from '../button'
-const App = ({ user, data, dark, setDetailImage, xRef, xKey, onEditClick, handleScrolling}) =>
+import { useDispatch } from 'react-redux'
+const App = ({ user, data, dark, setDetailImage, xRef, xKey, maxKey, onEditClick, deleteProject, handleScrolling }) => {
+    const dispatch = useDispatch()
+return(
     <div key={xKey} className="py-6">
         <div className="h-px bg-gray-200 dark:bg-gray-800" />
         <div ref={xRef} className="p-6 text-center space-y-7 py-28">
@@ -12,12 +15,12 @@ const App = ({ user, data, dark, setDetailImage, xRef, xKey, onEditClick, handle
             <Info data={data} dark={dark} setDetailImage={setDetailImage} />
         { user ? 
             <div className="flex justify-center space-x-4">
-                <i onClick={() => null} className="p-3 cursor-pointer"><box-icon color="#059669" name='trash'></box-icon></i>
+                <i onClick={() => dispatch(deleteProject(data._id))} className="p-3 cursor-pointer"><box-icon color="#059669" name='trash'></box-icon></i>
                 <i onClick={onEditClick} className="p-3 cursor-pointer"><box-icon color="#059669" name='edit'></box-icon></i>
             </div> : null}
         </div>
-        <BtnNext onClick={() => (xKey+1) === data.length
+        <BtnNext onClick={() => xKey >= maxKey
             ? handleScrolling(`RowGeneral0`)
-            : handleScrolling(`RowComplex${xKey+1}`)} />
-    </div>
+            : handleScrolling(`RowComplex${xKey}`)} />
+    </div>)}
 export default App

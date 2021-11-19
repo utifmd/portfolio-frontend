@@ -5,7 +5,7 @@ import { PlaceholderImg } from '../../../../assets'
 import React, { useState, useRef, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-const initialState = { title: null, desc: 'Scholarship entry', body: null, author: 'utifmd@gmail.com', file: null, tags: ['scholarship'] }
+const initialState = { title: '', desc: 'Scholarship entry', source: '', body: '', author: 'utifmd@gmail.com', file: '', tags: ['scholarship'] }
 
 const App = ({ formState, scholars, setScholars, updateScholar, xRef, setShowSnackbar, handleScrolling }) => { 
     const elRefs = useRef({}),
@@ -16,13 +16,13 @@ const App = ({ formState, scholars, setScholars, updateScholar, xRef, setShowSna
         selectedScholar = currentPid? scholars.find((item) => item._id === currentPid): null,
         
     handleSubmit = (e) => {
+        const {title, body, file} = stateData
         e.preventDefault()
 
-        if(stateData.title && stateData.body && stateData.file){
-            if(currentPid) 
-                dispatch(updateScholar(currentPid, stateData))
-            else 
-                dispatch(setScholars(stateData))
+        if(title.length && body.length && file.length){
+            currentPid
+            ? dispatch(updateScholar(currentPid, stateData))
+            : dispatch(setScholars(stateData))
 
             handleSubmitted()
         } else 
@@ -56,7 +56,6 @@ const App = ({ formState, scholars, setScholars, updateScholar, xRef, setShowSna
         stateData.tags.filter((v, i) => i !== key)
     })
 
-
     useEffect(() => {
         if(selectedScholar) 
             setStateData(selectedScholar)
@@ -74,8 +73,14 @@ return(
                         <input className="appearance-none block w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"
                             ref={(e) => elRefs.current['title'] = e} 
                             type="text" placeholder="Enter title" 
-                            value={stateData?.title}
+                            value={stateData.title}
                             onChange={(e) => setStateData({...stateData, title: e.target.value})}/></div>
+                    <div className="md:col-span-2">
+                        <input className="appearance-none block w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"
+                            ref={(e) => elRefs.current['source'] = e} 
+                            type="text" placeholder="Enter source" 
+                            value={stateData.source}
+                            onChange={(e) => setStateData({...stateData, source: e.target.value})}/></div>
                     <div className="relative bg-white overflow-hidden appearance-none block w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600">
                     { stateData.file ?
                         <img className="object-contain h-full w-full cursor-pointer" src={stateData.file} alt="add new stateData" onClick={() => inputRef.current.click()} /> : <PlaceholderImg onClick={() => inputRef.current.click()} /> }
@@ -85,7 +90,7 @@ return(
                     </div>
                     <div className="h-full w-full space-y-4 text-left">
                         <textarea ref={(e) => elRefs.current['message'] = e} type="text" placeholder="Enter message" className="appearance-none block w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"
-                            value={stateData?.body}
+                            value={stateData.body}
                             onChange={(e) => setStateData({...stateData, body: e.target.value})} />
                         <input ref={(e) => elRefs.current['tags'] = e} type="text" placeholder="Enter some tags" className="appearance-none block w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"
                             onKeyUp={handleTagsEvent} />
