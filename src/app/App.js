@@ -4,14 +4,14 @@ import { useEffect, useState } from 'react'
 import { signIn, signOut } from '../data/repos/remote/persistence/auth'
 import { createScholar, readScholars, updateScholar, deleteScholar } from '../data/repos/remote/persistence/scholars'
 import { createProject, readProjects, updateProject, deleteProject } from '../data/repos/remote/persistence/projects'
+import { createFiles /*, createFile, deleteFile, readFile*/ } from '../data/repos/remote/persistence/file'
 
 import MainView from './view/MainView'
 import Preloader from './layout/component/Preloader'
 
 const App = ({ introItem, neckItems, profileItem }) => {
     const dispatch = useDispatch(),
-    { scholars, projects, auth } = useSelector((state) => state),
-
+    { scholars, projects, auth, file } = useSelector((state) => state),
     [ currentUser, setCurrentUser ] = useState(localStorage.getItem('profile')),
     [ dark, setDark ] = useState(localStorage.getItem('theme') === 'dark'),
     
@@ -46,7 +46,7 @@ const App = ({ introItem, neckItems, profileItem }) => {
         projects={projects} setProjects={createProject} 
         updateScholar={updateScholar} deleteScholar={deleteScholar}
         updateProject={updateProject} deleteProject={deleteProject}
-        
+        createFiles={createFiles}
         auth={auth} signIn={signIn} 
         user={currentUser|| auth?.result} 
         handleSignOut={handleSignOut}

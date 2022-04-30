@@ -1,10 +1,12 @@
 import axios from 'axios'
-import { scholars, projects, auth } from '../../../domain'
+import { scholars, projects, auth, file } from '../../../domain'
 
-const url = //"http://127.0.0.1:5000/" // || 
-    "https://portfolio-utifmd.herokuapp.com/" 
+const url = "http://127.0.0.1:5000/" // || 
+    //"https://portfolio-utifmd.herokuapp.com/" 
 
 const client = axios.create({baseURL: url, timeout: 20000})
+
+export const baseUrl = url
 
 /* SEPARATOR */
 
@@ -38,3 +40,17 @@ export const updateProject = (id, newPost) =>
 
 export const deleteProject = (id) => 
     client.delete(`/${projects}/${id}`)
+
+    /* SEPARATOR */
+
+export const readFile = () => 
+    client.get(`/${file}`)
+
+export const createFile = (newFile) => 
+    client.post(`/${file}`, newFile)
+    
+export const createFiles = (newFiles) => 
+    client.post(`/${file}/multiple_files`, newFiles)
+    
+export const deleteFile = (id) => 
+    client.delete(`/${file}/${id}`)

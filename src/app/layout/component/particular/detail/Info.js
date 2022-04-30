@@ -5,8 +5,8 @@ const App = ({data, dark, setDetailImage}) => {
     : ['Link address', 'Visit'],
   
   handleScreenshot = () => setDetailImage({ 
-    src: data?.screenshot[0], 
-    queue: data?.screenshot, 
+    src: data?.fileUrl[0], 
+    queue: data?.fileUrl, 
     pos: 0 
   })
 
@@ -35,7 +35,7 @@ return (
             <dt className="text-sm font-medium text-gray-500">Attachments</dt>
             <dd className="mt-1 text-sm text-gray-900 dark:text-gray-100 sm:mt-0 sm:col-span-2">
               <ul role="listitem" className="border border-gray-300 dark:border-gray-600 rounded-md divide-y divide-gray-300 dark:divide-gray-600">
-              { data?.screenshot?.length ?
+              { data?.fileUrl?.length ?
                 <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
                   <div key="key1" className="w-0 flex-1 flex items-center">
                     <box-icon color={dark? '#F3F4F6': '#111827'} name="image"/>

@@ -1,57 +1,96 @@
-import { toBase64, toLowerImage } from '../../../../features/module'
+import { toBase64 } from '../../../../features/module'
 import { BtnPrimary } from '../../particular/button'
 import { PlaceholderImg, PlaceholderQueue } from '../../../../assets'
+import { baseUrl } from '../../../../features/api'
 
 import React, { useState, useRef, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-const App = ({ formState, projects, setProjects, updateProject, xRef, handleScrolling, setShowSnackbar }) => { 
+const initialState = { title: '', description: '', kind: 'website', stack: [], iconUrl: '', fileUrl: [], source: ''}
+const initialFileState = { name: `file-${new Date().getTime()}`, type: 'image/png', data: '' }
+const App = ({ formState, projects, setProjects, updateProject, file, createFiles, xRef, handleScrolling, setShowSnackbar }) => { 
     const dispatch = useDispatch(),
         elRefs = useRef({}),
         refIcon = useRef(null),
         refScreenshot = useRef(null),
-        initialState = { 
-            title: '',
-            description: '',
-            kind: 'website',
-            stack: [],
-            icon: '',
-            screenshot: [],
-            source: ''},
         [ stateData, setStateData ] = useState(initialState),
+        [ stateFiles, setStateFiles ] = useState([]),
         [ stateHeadSource, setStateHeadSource ] = useState('https://www.'),
-        { title, description, kind, stack, icon, screenshot, source } = stateData,
+        { title, description, kind, stack, /*iconUrl, fileUrl,*/ source } = stateData,
         { currentPid } = formState?.projects,
         selectedProject = currentPid? projects.find((item) => item._id === currentPid): null,
+    
+    onFileSelected = (e, isIcon) => {
+        Promise.all([...e.target.files].map(files => files))
+        .then(files => {
+            if (!files.length) return
+            let basses = files.map(async(file) => await toBase64(file))
+            
+                Promise.all(basses)
+                    .then(basses64 => {
+                        const { name, type } = initialFileState
+                        let multiple = basses64.map(base64 => 
+                            Object.getPrototypeOf(Object.create({ name, type, data: base64 })))
+                        
+                        isIcon ? setStateFiles([{ name, type: 'image/ico', data: basses64[0] }])  : setStateFiles([ ...stateFiles, ...multiple ])
+                    })
+                    .catch(err => setShowSnackbar({body: err.message}))
+            })
+            .catch(err => setShowSnackbar({body: err.message}))
+    },
+
+    handleSubmit = (e) => {
+        e.preventDefault()
         
-    handleSubmit = () => {
-        let finalData = {...stateData, source: stateHeadSource+source}
+        if(!title.length || !description.length || !kind.length || !source.length){
+            setShowSnackbar({body: 'fill the fields.'})
+            return  
+        }
 
-        if(title.length && description.length && kind.length && icon.length && source.length){
-            if(currentPid)
-                dispatch(updateProject(currentPid, finalData))
-            else
-                dispatch(setProjects(finalData))
+        if (stateFiles.length) {
+            dispatch(createFiles(stateFiles))
+                .then((resp) => onCreateProjects(resp))
+                .catch(err => setShowSnackbar({body: err.message}))
+        } else {
+            currentPid 
+            ? onCreateProjects(null)
+            : setShowSnackbar({body: 'select some image.'})
+        }
+        
+        console.log(stateFiles)
+    },
 
-            handleSubmitted()
-        }else setShowSnackbar({body: 'fill empty fields'})
+    onCreateProjects = (resp) => { 
+        if (resp){
+            let files = resp.payload.data
+            let iconUrl = files
+                .filter((v) => v.type === 'image/ico')
+                .map((file) => `${baseUrl}file/${file._id}`)[0] ?? ''
+                
+                let fileUrls = files
+                    .filter((v) => v.type === 'image/png')
+                    .map((file) => `${baseUrl}file/${file._id}`)
+            
+            currentPid
+            ? dispatch(updateProject(currentPid, { ...stateData, 
+                iconUrl: iconUrl, fileUrl: fileUrls
+            }))
+            : dispatch(setProjects({ ...stateData, 
+                iconUrl: iconUrl, fileUrl: fileUrls
+            }))
+        } else {
+            dispatch(updateProject(currentPid, { ...stateData }))
+        }
+
+        handleSubmitted()
     },
     
     handleSubmitted = () => {
-        handleScrolling('RowComplex0')
-        setStateData(initialState)
-        Object.values(elRefs.current).map((elem) => elem.value = null)
-    },
-    
-    handleOpenedFile = async (e, type) => {
-        let icon = e.target.files[0]
+        let scroller = `RowComplex${projects.length-1}`
 
-        await toLowerImage(icon).then( async (lower) => {
-            await toBase64(lower).then(base64 => type === 1
-                ? setStateData({ ...stateData, icon: base64 })
-                : setStateData({ ...stateData, screenshot: [ ...screenshot, base64 ] })
-            ).catch((err) => console.log(err.message))
-        }).catch(err => console.log(err.message))
+        setStateData(initialState)
+        setStateFiles([])
+        Object.values(elRefs.current).map((elem) => elem.value = null)
     },
 
     handleStackEvent = (e) => { if(e.keyCode === 13 && e.target.value.length !== 0) {
@@ -65,11 +104,11 @@ const App = ({ formState, projects, setProjects, updateProject, xRef, handleScro
         stack.filter((v, i) => i !== key)
     })
 
-    useEffect(() => {
-        if(selectedProject)
-            setStateData(selectedProject)
+useEffect(() => {
+    if(selectedProject)
+        setStateData(selectedProject)
 
-    }, [ selectedProject ])
+}, [ selectedProject ])
 
 return( 
     <div className="py-6 animate-fade-in-up">
@@ -99,10 +138,12 @@ return(
                             onChange={(e) => setStateData({ ...stateData, source: e.target.value })} />
                     </div>
                     <div className="relative bg-white overflow-hidden appearance-none block w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600">
-                    { icon ?
-                        <img className="object-contain h-full w-full cursor-pointer" src={icon} alt="add new stateData" onClick={() => refIcon.current.click()} /> : <PlaceholderImg onClick={() => refIcon.current.click()} /> }
+                    { stateFiles.filter((v, i) => v.type === 'image/ico')[0] 
+                        ? <img className="object-contain h-full w-full cursor-pointer" src={stateFiles.filter((v, i) => v.type === 'image/ico')[0].data} alt="add new stateData" onClick={() => refIcon.current.click()} />
+                        : <PlaceholderImg onClick={() => refIcon.current.click()} /> 
+                    } 
                         <input ref={refIcon} className="hidden" type="file" id="file" multiple={false}
-                            onChange={(e) => handleOpenedFile(e, 1)} />
+                            onChange={(e) => onFileSelected(e, true)} />
                     </div>
                     <div className="h-full w-full space-y-4 text-left">
                         <select className="appearance-none block w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"
@@ -137,11 +178,11 @@ return(
                             onChange={(e) => setStateData({...stateData, description: e.target.value})} />
                     </div>
                     <div className="md:col-span-2"> 
-                        <div className="flex justify-start space-x-1"> { screenshot? screenshot.length? screenshot.map((v, i) => 
-                            <img key={i} className="object-contain h-16 w-16 bg-gray-200 cursor-pointer" src={v} alt="ss"/> 
-                        ) :null :null }
+                        <div className="flex justify-start space-x-1"> { stateFiles.length ? stateFiles.filter((v, i) => v.type !== 'image/ico').map((v, i) => 
+                            <img key={i} className="object-contain h-16 w-16 bg-gray-200 cursor-pointer" src={v.data} alt="ss"/> 
+                        ) :null }
                             <PlaceholderQueue clazz={'h-16 w-16 bg-gray-200 dark:bg-gray-700 p-2'} onClick={() => refScreenshot.current.click()} />
-                            <input ref={refScreenshot} className="hidden" type="file" id="file" multiple={false} onChange={(e) => handleOpenedFile(e, 2)} />
+                            <input ref={refScreenshot} className="hidden" type="file" id="file" multiple={true} onChange={(e) => onFileSelected(e, false)} />
                         </div>
                     </div>
                 </div>

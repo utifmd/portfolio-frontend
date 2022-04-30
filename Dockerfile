@@ -4,7 +4,7 @@ WORKDIR ./var/www/html/personal
 
 COPY ./package*.json yarn.lock ./
 
-RUN yarn install
+RUN npm install
 
 CMD ["npm", "run", "start"]
 

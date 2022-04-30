@@ -1,48 +1,77 @@
 import { toBase64, toLowerImage } from '../../../../features/module'
 import { BtnPrimary } from '../../particular/button'
 import { PlaceholderImg } from '../../../../assets'
+import { baseUrl } from '../../../../features/api'
 
 import React, { useState, useRef, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-const initialState = { title: '', desc: 'Scholarship entry', source: '', body: '', author: 'utifmd@gmail.com', file: '', tags: ['scholarship'] }
-
-const App = ({ formState, scholars, setScholars, updateScholar, xRef, setShowSnackbar, handleScrolling }) => { 
+const initialState = { title: '', desc: 'Scholarship entry', source: '', body: '', author: 'utifmd@gmail.com', fileUrl: '', tags: ['scholarship'] }
+const initialFileState = { name: `file-${new Date().getTime()}`, type: 'image/png', data: '' }
+const App = ({ formState, scholars, setScholars, updateScholar, file, createFiles, xRef, setShowSnackbar, handleScrolling }) => { 
     const elRefs = useRef({}),
         inputRef = useRef(null),
         dispatch = useDispatch(),
         [ stateData, setStateData ] = useState(initialState),
+        [ stateFiles, setStateFiles ] = useState([]),
         { currentPid } = formState?.scholars,
         selectedScholar = currentPid? scholars.find((item) => item._id === currentPid): null,
         
+    onFileSelected = (e) => {
+        const { name, type } = initialFileState
+        let files = e.target.files
+        
+        files.forEach( async (file) => {
+            await toBase64(file).then(base64 => {
+                setStateFiles([ ...stateFiles, { name, type, data: base64 }])
+            }).catch((err) => console.log(err.message))
+        })
+    },
+
     handleSubmit = (e) => {
-        const {title, body, file} = stateData
         e.preventDefault()
-
-        if(title.length && body.length && file.length){
-            currentPid
-            ? dispatch(updateScholar(currentPid, stateData))
-            : dispatch(setScholars(stateData))
-
-            handleSubmitted()
-        } else 
+        const {title, body} = stateData
+        
+        if(!title.length && !body.length){
             setShowSnackbar({body: 'fill the fields.'})
+            return  
+        }
+
+        if(stateFiles.length) {
+            dispatch(createFiles(stateFiles))
+                .then((resp) => onCreateScholars(resp))
+                .catch(err => setShowSnackbar({body: err.message}))
+        } else {
+            currentPid
+            ? onCreateScholars(null)
+            : setShowSnackbar({body: 'select an image.'})
+        }
+        
+        console.log(stateFiles)
+    },
+    
+    onCreateScholars = (resp) => { 
+        if(resp){
+            let file = resp.payload.data[0]
+            let url = `${baseUrl}file/${file._id}`
+
+            currentPid
+            ? dispatch(updateScholar(currentPid, { ...stateData, fileUrl: url}))
+            : dispatch(setScholars({ ...stateData, fileUrl: url}))
+
+        } else {
+            dispatch(updateScholar(currentPid, { ...stateData }))
+        }
+        handleSubmitted()
     },
     
     handleSubmitted = () => {
-        handleScrolling('RowGeneral0')
-        setStateData(initialState)
-        Object.values(elRefs.current).map((elem) => elem.value = null)
-    },
-    
-    handleOpenedFile = async (e) => {
-        let file = e.target.files[0]
+        let scroller = `RowGeneral${scholars.length -1}`
         
-        await toLowerImage(file).then( async (lower) => { // console.log(`out size ${lower.size / 1024 / 1024} MB`)
-            await toBase64(lower).then(base64 => 
-                setStateData({ ...stateData, file: base64})
-            ).catch((err) => console.log(err.message))
-        }).catch(err => console.log(err.message))
+        handleScrolling(scroller)
+        setStateData(initialState)
+        setStateFiles([])
+        Object.values(elRefs.current).map((elem) => elem.value = null)
     },
 
     handleTagsEvent = (e) => { if(e.keyCode === 13 && e.target.value.length !== 0) {
@@ -56,11 +85,14 @@ const App = ({ formState, scholars, setScholars, updateScholar, xRef, setShowSna
         stateData.tags.filter((v, i) => i !== key)
     })
 
-    useEffect(() => {
-        if(selectedScholar) 
-            setStateData(selectedScholar)
+useEffect(() => {
+    if(selectedScholar) {
+        //let { fileUrl } = selectedScholar
+        
+        setStateData(selectedScholar)
+    }
 
-    }, [ selectedScholar ])
+}, [ selectedScholar ])
 
 return( 
     <div className="py-6 animate-fade-in-up">
@@ -82,11 +114,12 @@ return(
                             value={stateData.source}
                             onChange={(e) => setStateData({...stateData, source: e.target.value})}/></div>
                     <div className="relative bg-white overflow-hidden appearance-none block w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600">
-                    { stateData.file ?
-                        <img className="object-contain h-full w-full cursor-pointer" src={stateData.file} alt="add new stateData" onClick={() => inputRef.current.click()} /> : <PlaceholderImg onClick={() => inputRef.current.click()} /> }
+                    { stateFiles.length //stateData.fileUrl ?
+                        ? <img className="object-contain h-full w-full cursor-pointer" src={stateFiles[0].data} alt="add new stateData" onClick={() => inputRef.current.click()} /> 
+                        : <PlaceholderImg onClick={() => inputRef.current.click()} /> }
                         <input ref={inputRef} className="hidden" type="file" id="file"
                             multiple={false}
-                            onChange={handleOpenedFile} />
+                            onChange={onFileSelected} />
                     </div>
                     <div className="h-full w-full space-y-4 text-left">
                         <textarea ref={(e) => elRefs.current['message'] = e} type="text" placeholder="Enter message" className="appearance-none block w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"

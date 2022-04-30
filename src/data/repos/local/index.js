@@ -17,7 +17,7 @@ export const neckItems = {
     "description": "Some of the projects we are building include android mobile application, web application, multi platform development such as react by facebook and so on, but for now we are focusing on developing android applications.",
     "gridItems": [
         { "icon": "android", "type": "logo", "label": "Android" }, 
-        { "icon": "react", "type": "logo", "label": "Cross-Platform" },
+        { "icon": "react", "type": "logo", "label": "X-Platform" },
         { "icon": "code-alt", "label": "Desktop"}, 
         { "icon": "globe", "label": "Web"}, 
         { "icon": "server", "label": "DevOps"},

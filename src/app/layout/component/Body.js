@@ -18,7 +18,7 @@ const initialFormState = {
     }
 }
 
-const Body = ({ introItem, neckItems, user, 
+const Body = ({ introItem, neckItems, user, file, createFiles,
     scholars, setScholars, updateScholar, deleteScholar, 
     projects, setProjects, updateProject, deleteProject,
     setDetailImage, xRef, setShowSnackbar, handleMainScrolling, 
@@ -41,7 +41,7 @@ const Body = ({ introItem, neckItems, user,
 
             handleScrolling(type)
         }
-        
+        console.log(projects.length);
     return (
         <div ref={xRef} className="py-11 px-5 space-y-4 animate-fade-in-down bg-gradient-to-tl from-gray-200 to-gray-100 dark:from-gray-900 dark:to-gray-800">
             <BtnPrimary label="Begin"
@@ -71,7 +71,9 @@ const Body = ({ introItem, neckItems, user,
                 formState={formState}
                 projects={projects}
                 updateProject={updateProject}
-                setProjects={setProjects} 
+                setProjects={setProjects}
+                file={file}
+                createFiles={createFiles}
                 setShowSnackbar={setShowSnackbar}
                 handleScrolling={handleScrolling} /> :null }
         { scholars.length ? scholars.map((scholar, key) => 
@@ -92,6 +94,8 @@ const Body = ({ introItem, neckItems, user,
                 formState={formState}
                 setScholars={setScholars}
                 updateScholar={updateScholar}
+                file={file}
+                createFiles={createFiles}
                 setShowSnackbar={setShowSnackbar}
                 handleScrolling={handleScrolling} /> :null }
             <QuickAction

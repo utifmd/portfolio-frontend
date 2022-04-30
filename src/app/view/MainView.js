@@ -8,7 +8,7 @@ import Snackbar from '../layout/component/particular/detail/Snackbar'
 import { useState, useRef, useEffect } from 'react'
 
 function App({
-  introItem, neckItems, profileItem, 
+  introItem, neckItems, profileItem, file, createFiles, 
   auth, scholars, setScholars, updateScholar, deleteScholar,
   projects, setProjects, updateProject, deleteProject, 
   user, signIn, handleSignOut, 
@@ -52,7 +52,7 @@ function App({
         <section className="container max-w-xl mx-auto">
           <Header xRef={(e) => handleRef(0, e)} onClick={() => handleScroll(2)} />
           <Body xRef={(e) => handleRef(1, e)} 
-            introItem={introItem} neckItems={neckItems} user={user}
+            introItem={introItem} neckItems={neckItems} user={user} file={file} createFiles={createFiles}
             scholars={scholars} setScholars={setScholars} updateScholar={updateScholar} deleteScholar={deleteScholar}
             projects={projects} setProjects={setProjects} updateProject={updateProject} deleteProject={deleteProject}
             setDetailImage={setDetailImage} setShowSnackbar={setShowSnackbar}
