@@ -4,6 +4,7 @@ import Footer from '../layout/component/Footer'
 import Modal from '../layout/component/Modal'
 import Profile from '../layout/component/form/row/auth'
 import ModalImage from '../layout/component/particular/detail/Picture'
+import ModalDemo from '../layout/component/particular/detail/Demo'
 import Snackbar from '../layout/component/particular/detail/Snackbar'
 import { useState, useRef, useEffect } from 'react'
 
@@ -17,6 +18,7 @@ function App({
   const elRefs = useRef({}),
     [ showModal, setShowModal ] = useState(false),
     [ detailImage, setDetailImage ] = useState(null),
+    [ demoView, setDemoView ] = useState(null),
     [ showSnackbar, setShowSnackbar ] = useState(null),
   
     handleRef = (key, e) => {
@@ -55,7 +57,7 @@ function App({
             introItem={introItem} neckItems={neckItems} user={user} file={file} createFiles={createFiles}
             scholars={scholars} setScholars={setScholars} updateScholar={updateScholar} deleteScholar={deleteScholar}
             projects={projects} setProjects={setProjects} updateProject={updateProject} deleteProject={deleteProject}
-            setDetailImage={setDetailImage} setShowSnackbar={setShowSnackbar}
+            setDetailImage={setDetailImage} setDemoView={setDemoView} setShowSnackbar={setShowSnackbar}
             dark={dark} setDark={setDark}
             handleMainScrolling={handleScroll}/>
           <Profile xRef={(e) => handleRef(2, e)} 
@@ -67,6 +69,7 @@ function App({
           <Footer xRef={(e) => handleRef(3, e)} />
         </section>
         <ModalImage detailImage={detailImage} setDetailImage={setDetailImage} />
+        <ModalDemo demoView={demoView} setDemoView={setDemoView} />
         <Modal showModal={showModal} setShowModal={setShowModal} />
         <Snackbar showSnackbar={showSnackbar} setShowSnackbar={setShowSnackbar} />
       </div>

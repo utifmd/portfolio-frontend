@@ -1,7 +1,7 @@
 import Info from '../detail/Info'
 import { BtnNext } from '../button'
 import { useDispatch } from 'react-redux'
-const App = ({ user, data, dark, setDetailImage, xRef, xKey, maxKey, onEditClick, deleteProject, handleScrolling }) => {
+const App = ({ user, data, dark, setDetailImage, setDemoView, xRef, xKey, maxKey, onEditClick, deleteProject, handleScrolling }) => {
     const dispatch = useDispatch()
 return(
     <div key={xKey} className="py-6">
@@ -12,7 +12,7 @@ return(
             <div className="flex flex-wrap justify-center">
                 <img src={data?.iconUrl} alt="cretive" className="object-cover shadow-lg rounded-full w-48 h-48 align-middle border-none" />
             </div> {/* <box-icon key={i} className="rounded-full inline-block w-10 h-10 pb-1" name={v} type="logo"/> */}
-            <Info data={data} dark={dark} setDetailImage={setDetailImage} />
+            <Info data={data} dark={dark} setDetailImage={setDetailImage} setDemoView={setDemoView}/>
         { user ? 
             <div className="flex justify-center space-x-4">
                 <i onClick={() => dispatch(deleteProject(data._id))} className="p-3 cursor-pointer"><box-icon color="#059669" name='trash'></box-icon></i>

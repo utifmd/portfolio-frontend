@@ -6,7 +6,7 @@ import { baseUrl } from '../../../../features/api'
 import React, { useState, useRef, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-const initialState = { title: '', description: '', kind: 'website', stack: [], iconUrl: '', fileUrl: [], source: ''}
+const initialState = { title: '', description: '', kind: 'website', stack: [], iconUrl: '', fileUrl: [], demoUrl: '', source: ''}
 const initialFileState = { name: `file-${new Date().getTime()}`, type: 'image/png', data: '' }
 const App = ({ formState, projects, setProjects, updateProject, file, createFiles, xRef, handleScrolling, setShowSnackbar }) => { 
     const dispatch = useDispatch(),
@@ -136,6 +136,13 @@ return(
                             ref={(e) => elRefs.current['source'] = e} 
                             value={stateData.source.split('www.')[1]}
                             onChange={(e) => setStateData({ ...stateData, source: e.target.value })} />
+                    </div>
+                    <div className="md:col-span-2">
+                        <input className="appearance-none block w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"
+                            type="text" placeholder="Enter demo link" 
+                            ref={(e) => elRefs.current['demo'] = e} 
+                            value={stateData.demoUrl}
+                            onChange={(e) => setStateData({...stateData, demoUrl: e.target.value})}/>
                     </div>
                     <div className="relative bg-white overflow-hidden appearance-none block w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600">
                     { stateFiles.filter((v, i) => v.type === 'image/ico')[0] 

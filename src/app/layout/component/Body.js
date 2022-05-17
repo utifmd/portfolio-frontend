@@ -21,7 +21,7 @@ const initialFormState = {
 const Body = ({ introItem, neckItems, user, file, createFiles,
     scholars, setScholars, updateScholar, deleteScholar, 
     projects, setProjects, updateProject, deleteProject,
-    setDetailImage, xRef, setShowSnackbar, handleMainScrolling, 
+    setDetailImage, setDemoView, xRef, setShowSnackbar, handleMainScrolling, 
     dark, setDark }) => {
     const elRefs = useRef({}),
         [ formState, setFormState ] = useState(initialFormState),
@@ -64,6 +64,7 @@ const Body = ({ introItem, neckItems, user, file, createFiles,
                 deleteProject={deleteProject}
                 onEditClick={() => handleFormFocus('FormProjects', project._id)}
                 handleScrolling={handleScrolling}
+                setDemoView={setDemoView}
                 setDetailImage={setDetailImage} /> ) :null }
         { user ?
             <FormProjects 

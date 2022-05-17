@@ -1,4 +1,4 @@
-const App = ({data, dark, setDetailImage}) => {
+const App = ({data, dark, setDetailImage, setDemoView}) => {
 
   let attachmentKeys = data?.kind === 'android' || data?.kind === 'ios'
     ? ['Released apps', 'Download']
@@ -8,6 +8,10 @@ const App = ({data, dark, setDetailImage}) => {
     src: data?.fileUrl[0], 
     queue: data?.fileUrl, 
     pos: 0 
+  }),
+
+  handleDemo = () => setDemoView({
+    demoUrl: data?.demoUrl //'https://avatars.githubusercontent.com/u/16291551?s=400&u=c0b02c25fef325be78f7a1faca541f44120fb591&v=4'
   })
 
 return (
@@ -43,6 +47,16 @@ return (
                   </div>
                   <div key="key2" className="ml-4 flex-shrink-0">
                     <div onClick={handleScreenshot} className="font-medium text-green-600 hover:text-green-500 cursor-pointer">View</div>
+                  </div>
+                </li> : null }
+              { data?.demoUrl?.length ?
+                <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                  <div key="key1" className="w-0 flex-1 flex items-center">
+                    <box-icon color={dark? '#F3F4F6': '#111827'} name="video"/>
+                    <span className="ml-2 flex-1 w-0 truncate">Demonstration</span>
+                  </div>
+                  <div key="key2" className="ml-4 flex-shrink-0">
+                    <div onClick={handleDemo} className="font-medium text-green-600 hover:text-green-500 cursor-pointer">View</div>
                   </div>
                 </li> : null }
                 <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
