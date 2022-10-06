@@ -15,7 +15,7 @@ const App = ({ formState, scholars, setScholars, updateScholar, file, createFile
         [ stateData, setStateData ] = useState(initialState),
         [ stateFiles, setStateFiles ] = useState([]),
         { currentPid } = formState?.scholars,
-        selectedScholar = currentPid? scholars.find((item) => item._id === currentPid): null,
+        selectedScholar = currentPid? scholars?.data?.find((item) => item._id === currentPid): null,
         
     onFileSelected = (e) => {
         const { name, type } = initialFileState
@@ -66,7 +66,7 @@ const App = ({ formState, scholars, setScholars, updateScholar, file, createFile
     },
     
     handleSubmitted = () => {
-        let scroller = `RowGeneral${scholars.length -1}`
+        let scroller = `RowGeneral${scholars.data.length -1}`
         
         handleScrolling(scroller)
         setStateData(initialState)
@@ -88,8 +88,9 @@ const App = ({ formState, scholars, setScholars, updateScholar, file, createFile
 useEffect(() => {
     if(selectedScholar) {
         //let { fileUrl } = selectedScholar
-        
-        setStateData(selectedScholar)
+        let domain = new URL(selectedScholar.source)
+
+        setStateData({...selectedScholar, source: domain.hostname})
     }
 
 }, [ selectedScholar ])

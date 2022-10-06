@@ -15,10 +15,10 @@ const App = ({ formState, projects, setProjects, updateProject, file, createFile
         refScreenshot = useRef(null),
         [ stateData, setStateData ] = useState(initialState),
         [ stateFiles, setStateFiles ] = useState([]),
-        [ stateHeadSource, setStateHeadSource ] = useState('https://www.'),
+        [ stateHeadSource, setStateHeadSource ] = useState('https://'),
         { title, description, kind, stack, /*iconUrl, fileUrl,*/ source } = stateData,
         { currentPid } = formState?.projects,
-        selectedProject = currentPid? projects.find((item) => item._id === currentPid): null,
+        selectedProject = currentPid? projects?.data?.find((item) => item._id === currentPid): null,
     
     onFileSelected = (e, isIcon) => {
         Promise.all([...e.target.files].map(files => files))
@@ -86,9 +86,9 @@ const App = ({ formState, projects, setProjects, updateProject, file, createFile
     },
     
     handleSubmitted = () => {
-        let scroller = `RowComplex${projects.length-1}`
+        let scroller = `RowComplex${projects.data.length-1}`
 
-        setStateData({...initialState})
+        setStateData(initialState)
         setStateFiles([])
         Object.values(elRefs.current).map((elem) => elem.value = null)
     },
@@ -105,8 +105,14 @@ const App = ({ formState, projects, setProjects, updateProject, file, createFile
     })
 
 useEffect(() => {
-    if(selectedProject)
-        setStateData(selectedProject)
+    if(selectedProject){
+        try {
+            let domain = new URL(selectedProject.source)
+            setStateData({...selectedProject, source: domain.hostname})
+        } catch (error) {
+            setStateData({...selectedProject, source: selectedProject.source.split("://")[1]})
+        }
+    }
 
 }, [ selectedProject ])
 
