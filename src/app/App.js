@@ -7,7 +7,6 @@ import { createProject, readProjects, updateProject, deleteProject } from '../da
 import { createFiles /*, createFile, deleteFile, readFile*/ } from '../data/repos/remote/persistence/file'
 
 import MainView from './view/MainView'
-import Preloader from './layout/component/Preloader'
 
 const App = ({ introItem, neckItems, profileItem }) => {
     const dispatch = useDispatch(),
@@ -18,10 +17,10 @@ const App = ({ introItem, neckItems, profileItem }) => {
     handleDarkMode = () => {
         let { classList } = document.getElementById('root')
         
-        if(dark){
+        if(dark) {
             classList.add('dark')
             localStorage.setItem('theme', 'dark')
-        }else{ 
+        } else { 
             classList.remove('dark')
             localStorage.setItem('theme', 'light')
         }
@@ -35,13 +34,12 @@ const App = ({ introItem, neckItems, profileItem }) => {
     useEffect(() => {
         dispatch(readScholars())
         dispatch(readProjects())
-    }, [ dispatch ])
+        
+    }, [true])
   
     useEffect(handleDarkMode, [ dark ])
 
-    return projects.length || scholars.length? (
-    
-    <MainView 
+    return <MainView 
         scholars={scholars} setScholars={createScholar} 
         projects={projects} setProjects={createProject} 
         updateScholar={updateScholar} deleteScholar={deleteScholar}
@@ -54,8 +52,7 @@ const App = ({ introItem, neckItems, profileItem }) => {
         dark={dark} setDark={setDark}
         introItem={introItem}
         neckItems={neckItems}
-        profileItem={profileItem}/> ): ( 
-    <Preloader /> )
+        profileItem={profileItem}/>
 }
 
 export default App

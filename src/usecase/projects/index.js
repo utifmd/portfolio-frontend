@@ -1,19 +1,32 @@
 import { PROJECT_CREATE, PROJECT_READ_ALL, PROJECT_UPDATE, PROJECT_DELETE } from '../../data/repos/local/constants'
-
-const App = (projects = [], action) => {
+import { scholars } from '../../domain'
+const initialState = {
+    data: [],
+    status: 'idle',
+    error: null
+}
+const App = (projects = initialState, action) => {
     switch (action.type) {
         case PROJECT_CREATE:
-            return [ ...projects, {...action?.payload, message: action?.message} ]
+            return {...initialState,
+                data: [ ...projects.data, {...action?.payload} ], 
+                status: action?.message? 'failed': 'succeeded'
+            }
         case PROJECT_READ_ALL:
-            return action.payload
+            return {...initialState, 
+                data: action?.payload, 
+                status: action?.message? 'failed': 'succeeded'
+            }
         case PROJECT_UPDATE:
-            return projects.map((post) => 
-                post._id === action.payload._id 
-                ? action.payload 
-                : post )
+            return {...initialState,
+                data: projects.data.map((post) => post._id === action.payload._id ? action.payload : post ), 
+                status: action?.message? 'failed': 'succeeded'
+            }
         case PROJECT_DELETE: 
-            return projects.filter((post) => 
-                post._id !== action.payload )
+            return {...initialState,
+                data: projects.data.filter((post) => post._id !== action.payload ),
+                status: action?.message? 'failed': 'succeeded'
+            }
         default:
             return projects
     }

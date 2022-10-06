@@ -6,7 +6,7 @@ import { baseUrl } from '../../../../features/api'
 import React, { useState, useRef, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-const initialState = { title: '', desc: 'Scholarship entry', source: '', body: '', author: 'utifmd@gmail.com', fileUrl: '', tags: ['scholarship'] }
+const initialState = { title: '', desc: 'Scholarship entry', source: 'https://', body: '', author: 'utifmd@gmail.com', fileUrl: '', tags: ['scholarship'] }
 const initialFileState = { name: `file-${new Date().getTime()}`, type: 'image/png', data: '' }
 const App = ({ formState, scholars, setScholars, updateScholar, file, createFiles, xRef, setShowSnackbar, handleScrolling }) => { 
     const elRefs = useRef({}),
@@ -40,14 +40,14 @@ const App = ({ formState, scholars, setScholars, updateScholar, file, createFile
         if(stateFiles.length) {
             dispatch(createFiles(stateFiles))
                 .then((resp) => onCreateScholars(resp))
-                .catch(err => setShowSnackbar({body: err.message}))
+                .catch(err => {
+                    setShowSnackbar({body: err.message})
+                })
         } else {
             currentPid
             ? onCreateScholars(null)
             : setShowSnackbar({body: 'select an image.'})
         }
-        
-        console.log(stateFiles)
     },
     
     onCreateScholars = (resp) => { 
@@ -56,9 +56,9 @@ const App = ({ formState, scholars, setScholars, updateScholar, file, createFile
             let url = `${baseUrl}file/${file._id}`
 
             currentPid
-            ? dispatch(updateScholar(currentPid, { ...stateData, fileUrl: url}))
-            : dispatch(setScholars({ ...stateData, fileUrl: url}))
-
+            ? dispatch(updateScholar(currentPid, { ...stateData, fileUrl: url }))
+            : dispatch(setScholars({ ...stateData, fileUrl: url }))
+            
         } else {
             dispatch(updateScholar(currentPid, { ...stateData }))
         }
@@ -144,7 +144,10 @@ return(
                         )}
                     </div>
                 </div>
-                <BtnPrimary label={currentPid? 'Edit': 'Post'} onClick={handleSubmit} />
+                { scholars.status === 'idle' || scholars.status === 'succeeded'
+                    ? <BtnPrimary label={currentPid? 'Edit': 'Post'} onClick={handleSubmit} />
+                    : <BtnPrimary label="loading" />
+                }
         </div>
     </div>)}
     

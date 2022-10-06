@@ -41,7 +41,6 @@ const Body = ({ introItem, neckItems, user, file, createFiles,
 
             handleScrolling(type)
         }
-        console.log(projects.length);
     return (
         <div ref={xRef} className="py-11 px-5 space-y-4 animate-fade-in-down bg-gradient-to-tl from-gray-200 to-gray-100 dark:from-gray-900 dark:to-gray-800">
             <BtnPrimary label="Begin"
@@ -55,8 +54,8 @@ const Body = ({ introItem, neckItems, user, file, createFiles,
                 xRef={(e) => handleXref('RowGreeting', e)} 
                 onClick={() => handleScrolling(projects.length? 'RowComplex0': 'RowGeneral0')}
                 dark={dark} data={neckItems} />
-        { projects.length ? projects.map((project, key) => 
-            <RowComplex
+        { projects.data.length 
+            ? projects.data.map((project, key) => <RowComplex
                 key={project._id}
                 xKey={key+1} maxKey={projects.length}
                 xRef={(e) => handleXref(`RowComplex${key}`, e)}
@@ -65,7 +64,11 @@ const Body = ({ introItem, neckItems, user, file, createFiles,
                 onEditClick={() => handleFormFocus('FormProjects', project._id)}
                 handleScrolling={handleScrolling}
                 setDemoView={setDemoView}
-                setDetailImage={setDetailImage} /> ) :null }
+                setDetailImage={setDetailImage} /> ) 
+            : projects.status !== 'succeeded'
+            ? <div className={`h-60 py-4 px-20 bg-gray-300 dark:bg-gray-600 animate-pulse`}/>
+            : <div className="p-6 text-center space-y-6 py-28"><p className="font-base text-gray-900 dark:text-gray-100">there is no project yet.</p></div>
+        }
         { user ?
             <FormProjects 
                 xRef={(e) => handleXref('FormProjects', e)}
@@ -77,8 +80,8 @@ const Body = ({ introItem, neckItems, user, file, createFiles,
                 createFiles={createFiles}
                 setShowSnackbar={setShowSnackbar}
                 handleScrolling={handleScrolling} /> :null }
-        { scholars.length ? scholars.map((scholar, key) => 
-            <RowGeneral 
+        { scholars.data.length 
+            ? scholars.data.map((scholar, key) =>  <RowGeneral 
                 key={scholar._id}
                 xKey={key+1} maxKey={scholars.length}
                 xRef={(e) => handleXref(`RowGeneral${key}`, e)}
@@ -87,7 +90,11 @@ const Body = ({ introItem, neckItems, user, file, createFiles,
                 onEditClick={() => handleFormFocus('FormScholars', scholar._id)}
                 handleScrolling={handleScrolling}
                 handleMainScrolling={handleMainScrolling}
-                setDetailImage={setDetailImage} /> ) :null }
+                setDetailImage={setDetailImage} /> ) 
+            : projects.status !== 'succeeded'
+            ? <div className={`h-60 py-4 px-20 bg-gray-300 dark:bg-gray-600 animate-pulse`}/>
+            : <div className="p-6 text-center space-y-6 py-28"><p className="font-base text-gray-900 dark:text-gray-100">there is no scholar yet.</p></div>
+        }
         { user ?
             <FormScholars 
                 xRef={(e) => handleXref('FormScholars', e)} 

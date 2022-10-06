@@ -73,10 +73,10 @@ const App = ({ formState, projects, setProjects, updateProject, file, createFile
             
             currentPid
             ? dispatch(updateProject(currentPid, { ...stateData, 
-                iconUrl: iconUrl, fileUrl: fileUrls
+                iconUrl: iconUrl, fileUrl: fileUrls, source: `${stateHeadSource}${stateData.source}`
             }))
             : dispatch(setProjects({ ...stateData, 
-                iconUrl: iconUrl, fileUrl: fileUrls
+                iconUrl: iconUrl, fileUrl: fileUrls, source: `${stateHeadSource}${stateData.source}`
             }))
         } else {
             dispatch(updateProject(currentPid, { ...stateData }))
@@ -88,7 +88,7 @@ const App = ({ formState, projects, setProjects, updateProject, file, createFile
     handleSubmitted = () => {
         let scroller = `RowComplex${projects.length-1}`
 
-        setStateData(initialState)
+        setStateData({...initialState})
         setStateFiles([])
         Object.values(elRefs.current).map((elem) => elem.value = null)
     },
@@ -134,7 +134,7 @@ return(
                         <input className="appearance-none block w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 py-4 px-4 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"
                             type="text" placeholder="Enter source link" 
                             ref={(e) => elRefs.current['source'] = e} 
-                            value={stateData.source.split('www.')[1]}
+                            value={stateData.source}
                             onChange={(e) => setStateData({ ...stateData, source: e.target.value })} />
                     </div>
                     <div className="md:col-span-2">
@@ -193,7 +193,10 @@ return(
                         </div>
                     </div>
                 </div>
-                <BtnPrimary label={currentPid? 'Edit': 'Post'} onClick={handleSubmit} />
+                { projects.status === 'idle' || projects.status === 'succeeded'
+                    ? <BtnPrimary label={currentPid? 'Edit': 'Post'} onClick={handleSubmit} />
+                    : <BtnPrimary label="loading" />
+                }
         </div>
     </div>)}
     

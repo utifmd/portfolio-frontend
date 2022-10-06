@@ -19,7 +19,7 @@ const App = ({ detailImage, setDetailImage }) => {
     return detailImage ? (
     <div className="flex fixed mx-auto top-0 right-0 left-0 bottom-0 backdrop-filter backdrop-blur-lg animate-fade-in-up"> 
       <div className="flex mx-auto items-center justify-center h-auto w-full md:h-full md:w-auto">
-        <img className="object-contain h-auto w-full md:h-full md:w-auto" src={detailImage.src ? detailImage.src : placeholderPic} alt="detail cover" />
+        <img className="object-contain h-auto w-full md:h-full md:w-auto animate-fade-in-down" src={detailImage.src ? detailImage.src : placeholderPic} alt="detail cover" />
       </div>
       <div className="absolute right-0 top-0">
         <BtnCollapse onClick={() => setDetailImage(null)}/>
