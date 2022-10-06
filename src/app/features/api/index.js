@@ -2,7 +2,6 @@ import axios from 'axios'
 import { scholars, projects, auth, file } from '../../../domain'
 
 const url = "https://portfolio-utifmd.herokuapp.com/"
-
 const client = axios.create({baseURL: url, timeout: 20000})
 
 export const baseUrl = url
